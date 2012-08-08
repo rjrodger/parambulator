@@ -1,0 +1,20 @@
+{
+  "author": "Richard Rodger",
+  "name": "parambulator",
+  "version": "0.0.0",
+  "main":"lib/parambulator",
+  "repository": {
+    "url": "https://github.com/rjrodger/parambulator.git"
+  },
+  "engines": {
+    "node": "~0.6.15"
+  },
+  "dependencies": {
+    "underscore":"*",
+    "gex":">=0.0.3"
+  },
+  "devDependencies": {
+    "eyes":"*",
+    "vows":"*"
+  }
+}
