@@ -10,26 +10,122 @@ var parambulator = require('../lib/parambulator.js')
 vows.describe('basic').addBatch({
   'happy': {
     topic: function() {
-      return new parambulator.Parambulator({
-        rules: {
-          exclusive: ['path','from']
-        }
-      })
+      try {
+        return new parambulator.Parambulator({
+          atmostone$: ['path','from'],
+          exactlyone$: ['red','blue'],
+          atleastone$: ['a','b'],
+
+          search: {
+            required$: ['find','replace']
+          },
+
+          required$: ['foo','bar'],
+        })
+      } catch( e ) {
+        console.log(e.stack)
+        throw e
+      }
     },
 
-    'small': function( pb ) {
 
-      pb.validate({path:1},function(err,res){
+
+    'required$': function( pb ) {
+      pb.validate({a:1,red:1,foo:1,bar:1},function(err,res){
         assert.isNull(err)
-        console.dir(res)
       })
 
-      pb.validate({path:1,from:1},function(err,res){
-        console.dir(err)
-        console.dir(res)
+      pb.validate({a:1,red:1,foo:1},function(err,res){
+        assert.isNotNull(err)
+        assert.equal('required$',err.parambulator.code)
       })
 
+      pb.validate({a:1,red:1,bar:1},function(err,res){
+        assert.isNotNull(err)
+        assert.equal('required$',err.parambulator.code)
+      })
+
+      pb.validate({a:1,red:1,},function(err,res){
+        assert.isNotNull(err)
+        assert.equal('required$',err.parambulator.code)
+      })
     },
+
+
+    'exactlyone$': function( pb ) {
+      pb.validate({a:1,red:1, foo:1,bar:1},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({a:1,blue:1, foo:1,bar:1},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({a:1,foo:1,bar:1},function(err,res){
+        assert.isNotNull(err)
+        assert.equal('exactlyone$',err.parambulator.code)
+      })
+
+      pb.validate({a:1,red:1,blue:1, foo:1,bar:1},function(err,res){
+        assert.isNotNull(err)
+        assert.equal('exactlyone$',err.parambulator.code)
+      })
+    },
+
+
+    'atmostone$': function( pb ) {
+      pb.validate({a:1,red:1,foo:1,bar:1, from:1},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({a:1,red:1,foo:1,bar:1, path:1},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({a:1,red:1,foo:1,bar:1, path:1,from:1},function(err,res){
+        assert.isNotNull(err)
+        assert.equal('atmostone$',err.parambulator.code)
+      })
+    },
+
+
+    'atleastone$': function( pb ) {
+      pb.validate({red:1,foo:1,bar:1,from:1, a:1},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({red:1,foo:1,bar:1,from:1, b:1},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({red:1,foo:1,bar:1,from:1, a:1,b:1},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({red:1,foo:1,bar:1,from:1 },function(err,res){
+        assert.isNotNull(err)
+        assert.equal('atleastone$',err.parambulator.code)
+      })
+    },
+
+
+    'search': function( pb ) {
+      pb.validate({a:1,red:1,foo:1,bar:1, search:{find:1,replace:1}},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({a:1,red:1,foo:1,bar:1, search:{find:1}},function(err,res){
+        assert.isNotNull(err)
+        assert.equal('required$',err.parambulator.code)
+      })
+
+      pb.validate({a:1,red:1,foo:1,bar:1, search:{replace:1}},function(err,res){
+        assert.isNotNull(err)
+        assert.equal('required$',err.parambulator.code)
+      })
+    },
+
+
   }
 }).export(module)
 

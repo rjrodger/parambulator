@@ -1,0 +1,12 @@
+- test sub sub levels
+- test custom rules
+
+- array support
+- type rules
+
+- per-rule tests
+- deep structure tests
+
+- examples
+- docs
+
