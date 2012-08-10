@@ -1,8 +1,9 @@
-- test sub sub levels
 - test custom rules
 
 - array support
 - type rules
+
+- self validation
 
 - per-rule tests
 - deep structure tests
