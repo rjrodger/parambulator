@@ -44,27 +44,25 @@ vows.describe('custom').addBatch({
     'equalsbar': function( pb ) {
       pb.validate({req:1,foo:'bar'},function(err,res){
         assert.isNull(err)
+        assert.isUndefined(res.failure)
       })
 
       pb.validate({req:1,foo:'foo'},function(err,res){
-        //console.dir(err)
-        //console.dir(res)
-        assert.isNotNull(err)
-        assert.equal(err.parambulator.code,'equalsbar$')
+        assert.isNull(err)
+        assert.isNotNull(res.failure)
+        assert.equal(res.failure.parambulator.code,'equalsbar$')
       })
 
       pb.validate({req:1},function(err,res){
-        //console.dir(err)
-        //console.dir(res)
-        assert.isNotNull(err)
-        assert.equal(err.parambulator.code,'equalsbar$')
+        assert.isNull(err)
+        assert.isNotNull(res.failure)
+        assert.equal(res.failure.parambulator.code,'equalsbar$')
       })
 
       pb.validate({},function(err,res){
-        //console.dir(err)
-        //console.dir(res)
-        assert.isNotNull(err)
-        assert.equal(err.parambulator.code,'required$')
+        assert.isNull(err)
+        assert.isNotNull(res.failure)
+        assert.equal(res.failure.parambulator.code,'required$')
       })
 
     },
