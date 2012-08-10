@@ -12,7 +12,6 @@ vows.describe('basic').addBatch({
     topic: function() {
       try {
         return new parambulator.Parambulator({
-
           atmostone$: ['path','from'],
 
           search: {
@@ -30,15 +29,16 @@ vows.describe('basic').addBatch({
 
           required$: ['foo','bar'],
         })
-      } catch( e ) {
+      } 
+      catch( e ) {
         console.log(e.stack)
         throw e
       }
     },
 
 
-
     'required$': function( pb ) {
+
       pb.validate({a:1,red:1,foo:1,bar:1},function(err,res){
         assert.isNull(err)
         assert.isUndefined(res.failure)

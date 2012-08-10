@@ -1,0 +1,7 @@
+
+
+- wildcards on LHS not supported as required dynamic changes to rulesteps
+  - future: maybe make rule exec recursive to enable this?
+
+
+

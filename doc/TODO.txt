@@ -1,6 +1,3 @@
-- wildcard support
-
-- pattern match rules, gex, regexp
 - type rules
 
 - self validation
