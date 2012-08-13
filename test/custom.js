@@ -13,7 +13,8 @@ vows.describe('custom').addBatch({
       try {
         return new parambulator.Parambulator({
           required$: 'req',
-          equalsbar$: 'foo'
+          equalsbar$: 'foo',
+          exactlyone$: ['a','b']
         }, {
           rules: {
             equalsbar$: function(ctxt,cb) {
@@ -29,7 +30,10 @@ vows.describe('custom').addBatch({
           },
           msgs: {
             required$:'Property %s is required, yo! At %s.',
-            equalsbar$:'Property %s is not equal to "bar", man... At %s.'
+            equalsbar$:'Property %s is not equal to "bar", man... At %s.',
+            exactlyone$: function() {
+              return 'my custom error msg for values '+arguments[0]+' at location '+arguments[1]
+            }
           }
         })
       } 
@@ -42,34 +46,37 @@ vows.describe('custom').addBatch({
 
 
     'equalsbar': function( pb ) {
-      pb.validate({req:1,foo:'bar'},function(err,res){
+      pb.validate({req:1,a:1,foo:'bar'},function(err,res){
         assert.isNull(err)
         assert.isUndefined(res.failure)
       })
 
-      pb.validate({req:1,foo:'foo'},function(err,res){
+      pb.validate({req:1,a:1,foo:'foo'},function(err,res){
         assert.isNull(err)
         assert.isNotNull(res.failure)
         assert.equal(res.failure.parambulator.code,'equalsbar$')
       })
 
-      pb.validate({req:1},function(err,res){
+      pb.validate({req:1,a:1},function(err,res){
         assert.isNull(err)
         assert.isNotNull(res.failure)
         assert.equal(res.failure.parambulator.code,'equalsbar$')
       })
 
-      pb.validate({},function(err,res){
+      pb.validate({a:1},function(err,res){
         assert.isNull(err)
         assert.isNotNull(res.failure)
         assert.equal(res.failure.parambulator.code,'required$')
       })
 
+      pb.validate({req:1,foo:'bar', a:1,b:1},function(err,res){
+        assert.isNull(err)
+        assert.isNotNull(res.failure)
+        assert.equal(res.failure.parambulator.code,'exactlyone$')
+        assert.equal(res.failure.message,'my custom error msg for values a,b at location top level')
+      })
+
     },
-
-
-
-
   }
 }).export(module)
 
