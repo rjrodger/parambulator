@@ -1,9 +1,6 @@
-- type rules
+- ctxt api
 
 - self validation
-
-- per-rule tests
-- deep structure tests
 
 - examples
 - docs
