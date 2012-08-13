@@ -102,7 +102,7 @@ vows.describe('type').addBatch({
       })
 
       pb.validate({e:'foo'},function(err,res){
-        console.dir(res.failure)
+        //console.dir(res.failure)
         assert.isNull(err)
         assert.isNotNull(res.failure)
         assert.equal(res.failure.parambulator.code,'type$')

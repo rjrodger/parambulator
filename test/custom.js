@@ -18,6 +18,8 @@ vows.describe('custom').addBatch({
         }, {
           rules: {
             equalsbar$: function(ctxt,cb) {
+              console.dir(ctxt)
+
               var pn = ctxt.rulespec
               var val = ctxt.point[pn]
               if( 'bar' == val ) {
