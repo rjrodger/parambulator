@@ -24,7 +24,7 @@ vows.describe('custom').addBatch({
                 return cb(null)
               }
               else {
-                ctxt.util.fail(ctxt,cb)
+                return ctxt.util.fail(ctxt,cb)
               }
             }
           },

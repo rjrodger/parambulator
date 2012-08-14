@@ -1,5 +1,12 @@
-- self validation - ownparams
-
+- array property checks not working - range.js
+- fix error msgs functions and api
 - examples
+  - range: done
+  - simple:
+  - third party conf...?  
+
 - docs
 
+-- post 0.1
+- deeper self-vaidation
+- list$, prop$ validation, error handling

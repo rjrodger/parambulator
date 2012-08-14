@@ -18,6 +18,9 @@ vows.describe('value').addBatch({
           d: {eq$:'d*'},
           e: {re$:'e[z]'},
           f: {re$:'/f[z]/i'},
+          g: {enum$:['A','B','C']},
+
+          wild$:'top*', // does nothing
         })
       } 
       catch( e ) {
@@ -50,6 +53,7 @@ vows.describe('value').addBatch({
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'wild$')
       })
+
     },
 
 
@@ -82,6 +86,19 @@ vows.describe('value').addBatch({
       pb.validate({f:'fx'},function(err,res){
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'re$')
+      })
+    },
+
+
+    'enum$': function( pb ) {
+      pb.validate({g:'A'},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({g:'X'},function(err,res){
+        //console.log(err)
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'enum$')
       })
     },
 
