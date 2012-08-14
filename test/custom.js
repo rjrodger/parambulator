@@ -18,12 +18,10 @@ vows.describe('custom').addBatch({
         }, {
           rules: {
             equalsbar$: function(ctxt,cb) {
-              console.dir(ctxt)
-
-              var pn = ctxt.rulespec
+              var pn = ctxt.rule.spec
               var val = ctxt.point[pn]
               if( 'bar' == val ) {
-                return cb(null,ctxt)
+                return cb(null)
               }
               else {
                 ctxt.util.fail(ctxt,cb)
@@ -50,32 +48,27 @@ vows.describe('custom').addBatch({
     'equalsbar': function( pb ) {
       pb.validate({req:1,a:1,foo:'bar'},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({req:1,a:1,foo:'foo'},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'equalsbar$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'equalsbar$')
       })
 
       pb.validate({req:1,a:1},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'equalsbar$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'equalsbar$')
       })
 
       pb.validate({a:1},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'required$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'required$')
       })
 
       pb.validate({req:1,foo:'bar', a:1,b:1},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'exactlyone$')
-        assert.equal(res.failure.message,'my custom error msg for values a,b at location top level')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'exactlyone$')
+        assert.equal(err.message,'my custom error msg for values a,b at location top level')
       })
 
     },

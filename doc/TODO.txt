@@ -1,6 +1,6 @@
-- ctxt api
+- depth first descent - **, matches from point, wildcard tests
 
-- self validation
+- self validation - ownparams
 
 - examples
 - docs

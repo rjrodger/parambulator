@@ -12,13 +12,15 @@ vows.describe('array').addBatch({
     topic: function() {
       try {
         return new parambulator.Parambulator({
+          z: 'required$',
           foo: {
+
             '__1': {
               bar: 'required$'
             },
 
-            '__0': 'required$'
-          }
+            '__0': 'required$',
+          },
         })
       } 
       catch( e ) {
@@ -28,23 +30,30 @@ vows.describe('array').addBatch({
     },
 
 
-
-    'index0': function( pb ) {
+    'z': function( pb ) {
+      pb.validate({z:1},function(err,res){
+        assert.isNull(err)
+      })
 
       pb.validate({},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'required$')
+      })
+    },
+
+
+    'index0': function( pb ) {
+      pb.validate({z:1},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
-      pb.validate({foo:[10]},function(err,res){
+      pb.validate({z:1,foo:[10]},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
-      pb.validate({foo:[]},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'required$')
+      pb.validate({z:1,foo:[]},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'required$')
       })
 
 
@@ -53,32 +62,24 @@ vows.describe('array').addBatch({
 
     'index1': function( pb ) {
 
-      pb.validate({foo:[10]},function(err,res){
+      pb.validate({z:1,foo:[10]},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
-      pb.validate({foo:[{},{bar:1}]},function(err,res){
+      pb.validate({z:1,foo:[{},{bar:1}]},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
-
-      pb.validate({foo:[{},{}]},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'required$')
+      pb.validate({z:1,foo:[{},{}]},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'required$')
       })
 
-      pb.validate({foo:[{},{barx:1}]},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'required$')
+      pb.validate({z:1,foo:[{},{barx:1}]},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'required$')
       })
-
     },
-
-
 
 
   }

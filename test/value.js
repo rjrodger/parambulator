@@ -15,11 +15,8 @@ vows.describe('value').addBatch({
           a: 'a',
           b: 'b*',
           c: {wild$:'*c'},
-
           d: {eq$:'d*'},
-
           e: {re$:'e[z]'},
-
           f: {re$:'/f[z]/i'},
         })
       } 
@@ -32,30 +29,26 @@ vows.describe('value').addBatch({
 
 
     'wild$': function( pb ) {
+
       pb.validate({},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({a:'a'},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({b:'bx'},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({c:'xc'},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({a:'b'},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'wild$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'wild$')
       })
     },
 
@@ -63,13 +56,11 @@ vows.describe('value').addBatch({
     'eq$': function( pb ) {
       pb.validate({d:'d*'},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({d:'dx'},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'eq$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'eq$')
       })
     },
 
@@ -77,27 +68,22 @@ vows.describe('value').addBatch({
     're$': function( pb ) {
       pb.validate({e:'ez'},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({e:'ex'},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'re$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'re$')
       })
 
       pb.validate({f:'FZ'},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({f:'fx'},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'re$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'re$')
       })
     },
-
 
   }
 }).export(module)

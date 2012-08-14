@@ -12,7 +12,13 @@ vows.describe('array').addBatch({
     topic: function() {
       try {
         return new parambulator.Parambulator({
-          atmostone$: 'a*'
+          atmostone$: 'a*',
+
+
+          '*': {
+            a:{type$:'integer'}
+          }
+
         })
       } 
       catch( e ) {
@@ -26,28 +32,38 @@ vows.describe('array').addBatch({
     'a*': function( pb ) {
       pb.validate({},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({c:1},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
 
       pb.validate({a:1},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({a:1,ax:1},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'atmostone$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'atmostone$')
       })
 
     },
 
+
+
+
+    '*': function( pb ) {
+
+      pb.validate({x:{a:1},y:{a:2}},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({x:{a:'b'}},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+    }
 
 
   }

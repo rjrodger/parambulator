@@ -32,32 +32,28 @@ vows.describe('type').addBatch({
     'string': function( pb ) {
       pb.validate({},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({a:'foo'},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({a:1},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'type$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
       })
     },
+
 
 
     'number': function( pb ) {
       pb.validate({b:1.1},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({b:'foo'},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'type$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
       })
     },
 
@@ -65,13 +61,11 @@ vows.describe('type').addBatch({
     'integer': function( pb ) {
       pb.validate({c:1},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({c:1.1},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'type$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
       })
     },
 
@@ -79,18 +73,15 @@ vows.describe('type').addBatch({
     'boolean': function( pb ) {
       pb.validate({d:true},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({d:false},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({d:'foo'},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'type$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
       })
     },
 
@@ -98,14 +89,11 @@ vows.describe('type').addBatch({
     'date': function( pb ) {
       pb.validate({e:new Date()},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({e:'foo'},function(err,res){
-        //console.dir(res.failure)
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'type$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
       })
     },
 
@@ -113,18 +101,15 @@ vows.describe('type').addBatch({
     'array': function( pb ) {
       pb.validate({f:[]},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({f:[11]},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({f:'foo'},function(err,res){
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'type$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
       })
     },
 
@@ -132,24 +117,19 @@ vows.describe('type').addBatch({
     'object': function( pb ) {
       pb.validate({g:null},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({g:{}},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({g:{a:1}},function(err,res){
         assert.isNull(err)
-        assert.isUndefined(res.failure)
       })
 
       pb.validate({g:[]},function(err,res){
-        //console.dir(res.failure)
-        assert.isNull(err)
-        assert.isNotNull(res.failure)
-        assert.equal(res.failure.parambulator.code,'type$')
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
       })
     },
 
