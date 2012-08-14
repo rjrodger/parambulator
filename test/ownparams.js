@@ -12,34 +12,7 @@ vows.describe('ownparams').addBatch({
   'happy': {
     topic: function() {
       try {
-        return new parambulator.Parambulator({
-          strings$: 'required$'
-        }, {
-          rules: {
-            strings$: function(ctxt,cb){
-              var val = ctxt.point[ctxt.rule.spec]
-
-              if( _.isString(val) ) {
-                return cb(null)
-              }
-              else if( _.isArray(val) ) {
-                for(var i = 0; i < val.length; i++ ) {
-                  if( !_.isString(val[i]) ) {
-                    return ctxt.util.fail(ctxt,cb)
-                  }
-                }
-                return cb(null)
-              }
-              else {
-                return ctxt.util.fail(ctxt,cb)
-              }
-
-            }
-          },
-          msgs: {
-            'strings$': 'required$, string or array of strings: '
-          }
-        })
+        return parambulator.ownparams
       } 
       catch( e ) {
         console.log(e.stack)
@@ -50,20 +23,27 @@ vows.describe('ownparams').addBatch({
 
 
     'strings$': function( pb ) {
-      pb.validate({required$:'foo'},function(err,res){
-        assert.isNull(err)
-      })
 
-      pb.validate({required$:['foo','bar']},function(err,res){
-        assert.isNull(err)
-      })
+      for( var r in {required$:1,notempty$:1,atmostone$:1,exactlyone$:1,atleastone$:1} ) {
+        var args = {}
 
+        args[r]='foo'
+        pb.validate(args,function(err,res){
+          assert.isNull(err)
+        })
 
-      pb.validate({required$:1},function(err,res){
-        //console.dir(res.failure)
-        assert.isNotNull(err)
-        assert.equal(err.parambulator.code,'strings$')
-      })
+        args[r]=['foo','bar']
+        pb.validate(args,function(err,res){
+          assert.isNull(err)
+        })
+
+        args[r]=1
+        pb.validate(args,function(err,res){
+          //console.dir(err)
+          assert.isNotNull(err)
+          assert.equal(err.parambulator.code,'strings$')
+        })
+      }
 
     },
 

@@ -14,9 +14,12 @@ vows.describe('array').addBatch({
         return new parambulator.Parambulator({
           atmostone$: 'a*',
 
-
           '*': {
             a:{type$:'integer'}
+          },
+
+          '**': {
+            b:{type$:'integer'}
           }
 
         })
@@ -51,8 +54,6 @@ vows.describe('array').addBatch({
     },
 
 
-
-
     '*': function( pb ) {
 
       pb.validate({x:{a:1},y:{a:2}},function(err,res){
@@ -63,8 +64,34 @@ vows.describe('array').addBatch({
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'type$')
       })
-    }
+    },
 
+
+    '**': function( pb ) {
+
+      pb.validate({b:1,x:{a:1,b:1,y:{b:1}}},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({b:'foo'},function(err,res){
+        //console.log(err)
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+
+
+      pb.validate({x:{b:'foo'}},function(err,res){
+        //console.log(err)
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+
+      pb.validate({x:{y:{b:'foo'}}},function(err,res){
+        //console.log(err)
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+    }
 
   }
 }).export(module)

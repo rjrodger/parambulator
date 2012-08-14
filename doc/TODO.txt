@@ -1,5 +1,3 @@
-- depth first descent - **, matches from point, wildcard tests
-
 - self validation - ownparams
 
 - examples
