@@ -60,9 +60,9 @@ var customrules = {
     
     // the template syntax is provided by the underscore library
     // see http://underscorejs.org/#template
-    // available vars are point (the failing value), rule (.spec has the options), 
+    // available vars are value (the failing value), rule (.spec has the options), 
     // and parentpath (dot-separated property path to the point)
-    range$: 'The value <%=point%> is not within the range <%=rule.spec%> (property <%=parentpath%>).'
+    range$: 'The value <%=value%> is not within the range <%=rule.spec%> (property <%=parentpath%>).'
   },
 
   // this is a param spec that is applied to param specs to ensure they are valid
