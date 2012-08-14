@@ -1,9 +1,7 @@
-- array property checks not working - range.js
+
 - fix error msgs functions and api
 - examples
-  - range: done
-  - simple:
-  - third party conf...?  
+  - node.js server conf?
 
 - docs
 

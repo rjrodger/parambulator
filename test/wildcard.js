@@ -18,6 +18,12 @@ vows.describe('array').addBatch({
             a:{type$:'integer'}
           },
 
+          y: {
+            '*': {
+              a:{type$:'integer'}
+            },
+          },
+
           '**': {
             b:{type$:'integer'}
           }
@@ -60,7 +66,23 @@ vows.describe('array').addBatch({
         assert.isNull(err)
       })
 
+
       pb.validate({x:{a:'b'}},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+
+
+      pb.validate({x:[{a:1},{a:2}]},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({y:[{a:1},{a:2}]},function(err,res){
+        assert.isNull(err)
+      })
+
+
+      pb.validate({y:[{a:'b'}]},function(err,res){
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'type$')
       })
