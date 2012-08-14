@@ -50,6 +50,7 @@ vows.describe('value').addBatch({
       })
 
       pb.validate({a:'b'},function(err,res){
+        //console.log(err)
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'wild$')
       })
@@ -63,6 +64,7 @@ vows.describe('value').addBatch({
       })
 
       pb.validate({d:'dx'},function(err,res){
+        //console.log(err)
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'eq$')
       })
@@ -75,6 +77,7 @@ vows.describe('value').addBatch({
       })
 
       pb.validate({e:'ex'},function(err,res){
+        //console.log(err)
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'re$')
       })

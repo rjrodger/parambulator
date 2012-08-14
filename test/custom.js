@@ -31,8 +31,8 @@ vows.describe('custom').addBatch({
           msgs: {
             required$:'Property %s is required, yo! At %s.',
             equalsbar$:'Property %s is not equal to "bar", man... At %s.',
-            exactlyone$: function() {
-              return 'my custom error msg for values '+arguments[0]+' at location '+arguments[1]
+            exactlyone$: function(inserts) {
+              return 'my custom error msg for '+inserts.rule.spec+' at location '+inserts.parentpath
             }
           }
         })
@@ -68,7 +68,7 @@ vows.describe('custom').addBatch({
       pb.validate({req:1,foo:'bar', a:1,b:1},function(err,res){
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'exactlyone$')
-        assert.equal(err.message,'my custom error msg for values a,b at location top level')
+        assert.equal(err.message,'my custom error msg for a,b at location top level')
       })
 
     },

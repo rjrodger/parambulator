@@ -55,6 +55,7 @@ vows.describe('basic').addBatch({
       })
 
       pb.validate({a:1,z:1,red:1,},function(err,res){
+        //console.log(err)
         assert.isNotNull(err)
         assert.equal('required$',err.parambulator.code)
       })
@@ -71,6 +72,7 @@ vows.describe('basic').addBatch({
       })
 
       pb.validate({a:1,z:1,foo:1,bar:1},function(err,res){
+        //console.log(err)
         assert.isNotNull(err)
         assert.equal('exactlyone$',err.parambulator.code)
       })
@@ -92,6 +94,7 @@ vows.describe('basic').addBatch({
       })
 
       pb.validate({a:1,z:1,red:1,foo:1,bar:1, path:1,from:1},function(err,res){
+        //console.log(err)
         assert.isNotNull(err)
         assert.equal('atmostone$',err.parambulator.code)
       })
@@ -112,6 +115,7 @@ vows.describe('basic').addBatch({
       })
 
       pb.validate({z:1, red:1,foo:1,bar:1,from:1 },function(err,res){
+        //console.log(err)
         assert.isNotNull(err)
         assert.equal('atleastone$',err.parambulator.code)
       })
@@ -169,6 +173,7 @@ vows.describe('basic').addBatch({
 
     'notempty$': function( pb ) {
       pb.validate({a:1,z:'',red:1,foo:1,bar:1},function(err,res){
+        //console.log(err)
         assert.isNotNull(err)
         assert.equal('notempty$',err.parambulator.code)
       })

@@ -53,6 +53,7 @@ vows.describe('array').addBatch({
       })
 
       pb.validate({a:1,ax:1},function(err,res){
+        //console.log(err)
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'atmostone$')
       })
