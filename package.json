@@ -1,18 +1,29 @@
 {
-  "author": "Richard Rodger",
   "name": "parambulator",
+  "description": "A simple way to generate nice error messages for named parameters.",
+  "keywords": ["json","param","arg","parameter","argument","schema"],
+  "homepage": "https://github.com/rjrodger/parambulator",
+  "author": "Richard Rodger <richard@ricebridge.com> (http://richardrodger.com/)",
+  "contributors": [
+    "Richard Rodger <richard@ricebridge.com> (http://richardrodger.com/)"
+  ],
+
   "version": "0.0.0",
+
   "main":"lib/parambulator",
   "repository": {
     "url": "https://github.com/rjrodger/parambulator.git"
   },
   "engines": {
-    "node": "~0.6.15"
+    "node": ">=0.6"
   },
   "dependencies": {
     "underscore":"*",
     "gex":">=0.0.3"
   },
+
+  "files": ["package.json","LICENSE.txt","README.md","lib/parambulator.js"],
+
   "devDependencies": {
     "eyes":"*",
     "vows":"*"

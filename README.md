@@ -34,7 +34,7 @@ _But What About JSONSchema!_
 
 Yes, [JSONSchema](http://json-schema.org) would be the proper way to do this. But the syntax is too hard, and the error messages aren't friendly. This is a [Worse is Better!](http://www.jwz.org/doc/worse-is-better.html) approach.
 
-There's also a philosophical difference. JSONSchema defines a formal structure, so you need to be fairly precise and complete. Parambulator defines a list of rules that are tested in the order you specify, and you can be vague and incomplete. Think 
+There's also a philosophical difference. JSONSchema defines a formal structure, so you need to be fairly precise and complete. Parambulator defines a list of rules that are tested in the order you specify, and you can be vague and incomplete.
 
 
 Key Features:
