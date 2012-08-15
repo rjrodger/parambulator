@@ -5,4 +5,9 @@
 - deeper self-vaidation
 - list$, prop$ validation, error handling
 - http request example - agent - type should accept array (OR semantics)
+- check for truth failures when gex returns a 0 or '' - wild$ rule
+- extend docs for custom rules
+
+
+
 

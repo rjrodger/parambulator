@@ -8,7 +8,7 @@
     "Richard Rodger <richard@ricebridge.com> (http://richardrodger.com/)"
   ],
 
-  "version": "0.0.0",
+  "version": "0.0.1",
 
   "main":"lib/parambulator",
   "repository": {

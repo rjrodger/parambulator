@@ -12,6 +12,7 @@ vows.describe('array').addBatch({
     topic: function() {
       try {
         return new parambulator.Parambulator({
+
           atmostone$: 'a*',
 
           '*': {
@@ -26,7 +27,9 @@ vows.describe('array').addBatch({
 
           '**': {
             b:{type$:'integer'}
-          }
+          },
+
+          'z*': 'required$'
 
         })
       } 
@@ -37,53 +40,51 @@ vows.describe('array').addBatch({
     },
 
 
-
     'a*': function( pb ) {
-      pb.validate({},function(err,res){
+      pb.validate({z:1,},function(err,res){
         assert.isNull(err)
       })
 
-      pb.validate({c:1},function(err,res){
+      pb.validate({z:1,c:1},function(err,res){
         assert.isNull(err)
       })
 
 
-      pb.validate({a:1},function(err,res){
+      pb.validate({z:1,a:1},function(err,res){
         assert.isNull(err)
       })
 
-      pb.validate({a:1,ax:1},function(err,res){
+      pb.validate({z:1,a:1,ax:1},function(err,res){
         //console.log(err)
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'atmostone$')
       })
-
     },
 
 
     '*': function( pb ) {
 
-      pb.validate({x:{a:1},y:{a:2}},function(err,res){
+      pb.validate({z:1,x:{a:1},y:{a:2}},function(err,res){
         assert.isNull(err)
       })
 
 
-      pb.validate({x:{a:'b'}},function(err,res){
+      pb.validate({z:1,x:{a:'b'}},function(err,res){
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'type$')
       })
 
 
-      pb.validate({x:[{a:1},{a:2}]},function(err,res){
+      pb.validate({z:1,x:[{a:1},{a:2}]},function(err,res){
         assert.isNull(err)
       })
 
-      pb.validate({y:[{a:1},{a:2}]},function(err,res){
+      pb.validate({z:1,y:[{a:1},{a:2}]},function(err,res){
         assert.isNull(err)
       })
 
 
-      pb.validate({y:[{a:'b'}]},function(err,res){
+      pb.validate({z:1,y:[{a:'b'}]},function(err,res){
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'type$')
       })
@@ -92,29 +93,48 @@ vows.describe('array').addBatch({
 
     '**': function( pb ) {
 
-      pb.validate({b:1,x:{a:1,b:1,y:{b:1}}},function(err,res){
+      pb.validate({z:1,b:1,x:{a:1,b:1,y:{b:1}}},function(err,res){
         assert.isNull(err)
       })
 
-      pb.validate({b:'foo'},function(err,res){
+      pb.validate({z:1,b:'foo'},function(err,res){
         //console.log(err)
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'type$')
       })
 
 
-      pb.validate({x:{b:'foo'}},function(err,res){
+      pb.validate({z:1,x:{b:'foo'}},function(err,res){
         //console.log(err)
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'type$')
       })
 
-      pb.validate({x:{y:{b:'foo'}}},function(err,res){
+      pb.validate({z:1,x:{y:{b:'foo'}}},function(err,res){
         //console.log(err)
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'type$')
       })
-    }
+    },
+
+
+    'z*': function( pb ) {
+      pb.validate({z:1},function(err,res){
+        assert.isNull(err)
+      })
+
+
+      pb.validate({za:1},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({},function(err,res){
+        //console.log(err)
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'required$')
+      })
+    },
+
 
   }
 }).export(module)
