@@ -282,6 +282,15 @@ The following properties are available:
    * _parentpath_: a string locating the value in the input (properties in dot-syntax)
    * _json_: a reference to the JSON.stringify function, use like so: <%=json(rule.spec)%>
 
+The _parentpath_ will use the term _top level_ when the error concers
+the top level of the input object. You can customize this term using the _topname_ option:
+
+```javascript
+var pm = parambulator({...},{
+  topname: 'name_of_param_in_my_function_definition'
+})
+```
+
 You can also specify a custom error message using a function. This lets you customize on the specific failing conditions, such as the property name:
 
 ```javascript
