@@ -1,7 +1,8 @@
 
-- docs
 
 -- post 0.1
+- test/document validate return value if no async calls
+- tests for type child rules
 - default$ rule
 - function$ rule - applies function as rule
 - deeper self-vaidation
