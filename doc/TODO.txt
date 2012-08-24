@@ -2,6 +2,8 @@
 - docs
 
 -- post 0.1
+- default$ rule
+- function$ rule - applies function as rule
 - deeper self-vaidation
 - list$, prop$ validation, error handling
 - http request example - agent - type should accept array (OR semantics)

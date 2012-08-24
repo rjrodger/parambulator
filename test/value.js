@@ -105,6 +105,36 @@ vows.describe('value').addBatch({
       })
     },
 
+  },
+
+  'toplevel': {
+    topic: function() {
+      try {
+        return new parambulator.Parambulator({
+          type$:'object'
+        })
+      } 
+      catch( e ) {
+        console.log(e.stack)
+        throw e
+      }
+    },
+
+
+    'toplevel': function( pb ) {
+
+      pb.validate({},function(err){
+        assert.isNull(err)
+      })
+
+      pb.validate("foo",function(err){
+        assert.isNotNull(err)
+      })
+
+    }
   }
+
+
+
 }).export(module)
 
