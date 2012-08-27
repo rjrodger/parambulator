@@ -3,6 +3,8 @@
 -- post 0.1
 - test/document validate return value if no async calls
 - tests for type child rules
+- test for only$ rule
+- how to support required$: true
 - default$ rule
 - function$ rule - applies function as rule
 - deeper self-vaidation
