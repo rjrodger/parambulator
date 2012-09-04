@@ -19,6 +19,8 @@ vows.describe('value').addBatch({
           e: {re$:'e[z]'},
           f: {re$:'/f[z]/i'},
           g: {enum$:['A','B','C']},
+          h: {minlen$:2},
+          i: {maxlen$:6},
 
           wild$:'top*', // does nothing
         })
@@ -68,6 +70,72 @@ vows.describe('value').addBatch({
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'eq$')
       })
+    },
+
+    'minlen$': function( pb ) {
+      // test for string values
+      pb.validate({h:'abcde'},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({h:'a'},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'minlen$')
+      })
+
+      // test arrays
+      pb.validate({h:[1,2,3,4]},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({h:[1]},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'minlen$')
+      })
+
+
+      // test objects
+      pb.validate({h:{1:1, 2:2, 3:3, 4:4}},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({h:{1:1}},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'minlen$')
+      })
+    },
+
+    'maxlen$': function( pb ) {
+	  // test string values
+      pb.validate({i:'abcde'},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({i:'abcdefgh'},function(err,res){
+        assert.isNotNull(err);
+        assert.equal(err.parambulator.code,'maxlen$')
+      })
+
+      // test arrays
+      pb.validate({i:[1,2,3,4,5]},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({i:[1,2,3,4,5,6,7]},function(err,res){
+        assert.isNotNull(err);
+        assert.equal(err.parambulator.code,'maxlen$')
+      })
+
+      // test objects
+      pb.validate({i:{1:1, 2:2, 3:3, 4:4, 5:5}},function(err,res){
+        assert.isNull(err);
+      })
+
+      pb.validate({i:{1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7}},function(err,res){
+        assert.isNotNull(err);
+        assert.equal(err.parambulator.code,'maxlen$')
+      })
+
     },
 
 
