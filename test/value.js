@@ -19,6 +19,8 @@ vows.describe('value').addBatch({
           e: {re$:'e[z]'},
           f: {re$:'/f[z]/i'},
           g: {enum$:['A','B','C']},
+          h: {minlen$:2},
+          i: {maxlen$:6},
 
           wild$:'top*', // does nothing
         })
@@ -67,6 +69,28 @@ vows.describe('value').addBatch({
         //console.log(err)
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'eq$')
+      })
+    },
+
+    'minlen$': function( pb ) {
+      pb.validate({h:'abcde'},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({h:'a'},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'minlen$')
+      })
+    },
+
+    'maxlen$': function( pb ) {
+      pb.validate({i:'abcde'},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({i:'abcdefgh'},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'maxlen$')
       })
     },
 
