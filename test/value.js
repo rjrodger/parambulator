@@ -73,6 +73,7 @@ vows.describe('value').addBatch({
     },
 
     'minlen$': function( pb ) {
+      // test for string values
       pb.validate({h:'abcde'},function(err,res){
         assert.isNull(err)
       })
@@ -81,9 +82,21 @@ vows.describe('value').addBatch({
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'minlen$')
       })
+
+      // test arrays
+      pb.validate({h:[1,2,3,4]},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({h:[1]},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'minlen$')
+      })
+
     },
 
     'maxlen$': function( pb ) {
+	  // test string values
       pb.validate({i:'abcde'},function(err,res){
         assert.isNull(err)
       })
@@ -92,6 +105,17 @@ vows.describe('value').addBatch({
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'maxlen$')
       })
+
+      // test arrays
+      pb.validate({i:[1,2,3,4,5]},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({i:[1,2,3,4,5,6,7]},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'maxlen$')
+      })
+
     },
 
 
