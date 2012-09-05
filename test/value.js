@@ -112,7 +112,7 @@ vows.describe('value').addBatch({
       })
 
       pb.validate({i:'abcdefgh'},function(err,res){
-        assert.isNotNull(err);
+        assert.isNotNull(err)
         assert.equal(err.parambulator.code,'maxlen$')
       })
 
@@ -122,17 +122,17 @@ vows.describe('value').addBatch({
       })
 
       pb.validate({i:[1,2,3,4,5,6,7]},function(err,res){
-        assert.isNotNull(err);
+        assert.isNotNull(err)
         assert.equal(err.parambulator.code,'maxlen$')
       })
 
       // test objects
       pb.validate({i:{1:1, 2:2, 3:3, 4:4, 5:5}},function(err,res){
-        assert.isNull(err);
+        assert.isNull(err)
       })
 
       pb.validate({i:{1:1, 2:2, 3:3, 4:4, 5:5, 6:6, 7:7}},function(err,res){
-        assert.isNotNull(err);
+        assert.isNotNull(err)
         assert.equal(err.parambulator.code,'maxlen$')
       })
 
