@@ -19,7 +19,14 @@ vows.describe('value').addBatch({
           e: {re$:'e[z]'},
           f: {re$:'/f[z]/i'},
           g: {enum$:['A','B','C']},
-
+          h: {lt$: 2},
+          i: {lt$: "2012-09-04T00:00:00.000Z"},
+          j: {lte$: 2},
+          k: {lte$: "2012-09-04T00:00:00.000Z"},
+          l: {gt$: 2},
+          m: {gt$: "2012-09-04T00:00:00.000Z"},
+          n: {gte$: 2},
+          o: {gte$: "2012-09-04T00:00:00.000Z"},
           wild$:'top*', // does nothing
         })
       } 
@@ -68,6 +75,110 @@ vows.describe('value').addBatch({
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'eq$')
       })
+    },
+
+
+    'lt$': function( pb ) {
+      pb.validate({h: 0},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({h: 2}, function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'lt$')
+      })
+      
+      pb.validate({i: "2012-09-03T00:00:00.000Z"}, function(err,res) {
+        assert.isNull(err)
+      })
+      
+      pb.validate({i: "2012-09-04T00:00:00.000Z"}, function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'lt$')
+      })
+      
+      pb.validate({i: "not a date"}, function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'lt$')
+      })      
+    },
+
+
+    'lte$': function( pb ) {
+      pb.validate({j: 2},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({j: 3}, function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'lte$')
+      })
+      
+      pb.validate({k: "2012-09-04T00:00:00.000Z"}, function(err,res) {
+        assert.isNull(err)
+      })
+      
+      pb.validate({k: "2012-09-05T00:00:00.000Z"}, function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'lte$')
+      })
+      
+      pb.validate({k: "not a date"}, function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'lte$')
+      })      
+    },
+
+
+    'gt$': function( pb ) {
+      pb.validate({l: 3},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({l: 2}, function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'gt$')
+      })
+      
+      pb.validate({m: "2012-09-05T00:00:00.000Z"}, function(err,res) {
+        assert.isNull(err)
+      })
+      
+      pb.validate({m: "2012-09-04T00:00:00.000Z"}, function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'gt$')
+      })
+      
+      pb.validate({m: "not a date"}, function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'gt$')
+      })      
+    },
+
+
+    'gte$': function( pb ) {
+      pb.validate({n: 2},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({n: 1}, function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'gte$')
+      })
+      
+      pb.validate({o: "2012-09-04T00:00:00.000Z"},function(err,res) {
+        assert.isNull(err)
+      })
+      
+      pb.validate({o: "2012-09-03T00:00:00.000Z"},function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'gte$')
+      })
+      
+      pb.validate({o: "not a date"},function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'gte$')
+      })      
     },
 
 
