@@ -20,13 +20,13 @@ vows.describe('value').addBatch({
           f: {re$:'/f[z]/i'},
           g: {enum$:['A','B','C']},
           h: {lt$: 2},
-          i: {lt$: "2012-09-04T00:00:00.000Z"},
+          i: {lt$: new Date("2012-09-04")},
           j: {lte$: 2},
-          k: {lte$: "2012-09-04T00:00:00.000Z"},
+          k: {lte$: new Date("2012-09-04")},
           l: {gt$: 2},
-          m: {gt$: "2012-09-04T00:00:00.000Z"},
+          m: {gt$: new Date("2012-09-04")},
           n: {gte$: 2},
-          o: {gte$: "2012-09-04T00:00:00.000Z"},
+          o: {gte$: new Date("2012-09-04")},
           wild$:'top*', // does nothing
         })
       } 
@@ -79,32 +79,31 @@ vows.describe('value').addBatch({
 
 
     'lt$': function( pb ) {
-      pb.validate({h: 0},function(err,lt){
+      pb.validate({h: 1},function(err,lt){
         assert.isNull(err)
       })
 
-      pb.validate({h: 2}, function(err,res){
+      pb.validate({h: 3}, function(err,res){
         assert.isNotNull(err)
         assert.equal(err.parambulator.code, 'lt$')
       })
       
-      pb.validate({i: "2012-09-03T00:00:00.000Z"}, function(err,res) {
+      pb.validate({i: new Date("2012-09-03")}, function(err,res) {
         assert.isNull(err)
       })
       
-      pb.validate({i: "2012-09-04T00:00:00.000Z"}, function(err,res) {
+      pb.validate({i: new Date("2012-09-04")}, function(err,res) {
         assert.isNotNull(err)
         assert.equal(err.parambulator.code, 'lt$')
       })
-      
-      pb.validate({i: "not a date"}, function(err,res) {
-        assert.isNotNull(err)
-        assert.equal(err.parambulator.code, 'lt$')
-      })      
     },
 
 
     'lte$': function( pb ) {
+      pb.validate({j: 1},function(err,lt){
+        assert.isNull(err)
+      })
+
       pb.validate({j: 2},function(err,lt){
         assert.isNull(err)
       })
@@ -114,19 +113,14 @@ vows.describe('value').addBatch({
         assert.equal(err.parambulator.code, 'lte$')
       })
       
-      pb.validate({k: "2012-09-04T00:00:00.000Z"}, function(err,res) {
+      pb.validate({k: new Date("2012-09-04")}, function(err,res) {
         assert.isNull(err)
       })
       
-      pb.validate({k: "2012-09-05T00:00:00.000Z"}, function(err,res) {
+      pb.validate({k: new Date("2012-09-05")}, function(err,res) {
         assert.isNotNull(err)
         assert.equal(err.parambulator.code, 'lte$')
       })
-      
-      pb.validate({k: "not a date"}, function(err,res) {
-        assert.isNotNull(err)
-        assert.equal(err.parambulator.code, 'lte$')
-      })      
     },
 
 
@@ -140,19 +134,14 @@ vows.describe('value').addBatch({
         assert.equal(err.parambulator.code, 'gt$')
       })
       
-      pb.validate({m: "2012-09-05T00:00:00.000Z"}, function(err,res) {
+      pb.validate({m: new Date("2012-09-05")}, function(err,res) {
         assert.isNull(err)
       })
       
-      pb.validate({m: "2012-09-04T00:00:00.000Z"}, function(err,res) {
+      pb.validate({m: new Date("2012-09-04")}, function(err,res) {
         assert.isNotNull(err)
         assert.equal(err.parambulator.code, 'gt$')
       })
-      
-      pb.validate({m: "not a date"}, function(err,res) {
-        assert.isNotNull(err)
-        assert.equal(err.parambulator.code, 'gt$')
-      })      
     },
 
 
@@ -161,21 +150,20 @@ vows.describe('value').addBatch({
         assert.isNull(err)
       })
 
+      pb.validate({n: 3},function(err,lt){
+        assert.isNull(err)
+      })
+
       pb.validate({n: 1}, function(err,res){
         assert.isNotNull(err)
         assert.equal(err.parambulator.code, 'gte$')
       })
       
-      pb.validate({o: "2012-09-04T00:00:00.000Z"},function(err,res) {
+      pb.validate({o: new Date("2012-09-04")},function(err,res) {
         assert.isNull(err)
       })
       
-      pb.validate({o: "2012-09-03T00:00:00.000Z"},function(err,res) {
-        assert.isNotNull(err)
-        assert.equal(err.parambulator.code, 'gte$')
-      })
-      
-      pb.validate({o: "not a date"},function(err,res) {
+      pb.validate({o: new Date("2012-09-03")},function(err,res) {
         assert.isNotNull(err)
         assert.equal(err.parambulator.code, 'gte$')
       })      
