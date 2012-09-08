@@ -31,8 +31,6 @@ vows.describe('value').addBatch({
           q: {min$: new Date("2012-09-04")},
           r: {max$: 2},
           s: {max$: new Date("2012-09-04")},
-//          t: {uniq$: [1,2,3,4,5]},
-//          u: {uniq$: [1,2,3,4,5,1]},
           wild$:'top*', // does nothing
         })
       } 
