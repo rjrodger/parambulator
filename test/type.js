@@ -19,12 +19,28 @@ vows.describe('type').addBatch({
           e: {type$:'date'},
           f: {type$:'array'},
           g: {type$:'object'},
+          h: {type$:['date','string','array']},
         })
       } 
       catch( e ) {
         console.log(e.stack)
         throw e
       }
+    },
+
+    'multi-types': function( pb ) {
+      pb.validate({},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({h:'foo'},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({h:1},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
     },
 
 
