@@ -21,7 +21,19 @@ vows.describe('value').addBatch({
           g: {enum$:['A','B','C']},
           h: {minlen$:2},
           i: {maxlen$:6},
-
+          j: {lt$: 2},
+          k: {lt$: new Date("2012-09-04")},
+          l: {lte$: 2},
+          m: {lte$: new Date("2012-09-04")},
+          n: {gt$: 2},
+          o: {gt$: new Date("2012-09-04")},
+          p: {gte$: 2},
+          q: {gte$: new Date("2012-09-04")},
+          r: {min$: 2},
+          s: {min$: new Date("2012-09-04")},
+          t: {max$: 2},
+          u: {max$: new Date("2012-09-04")},
+          v: {uniq$: [true]},
           wild$:'top*', // does nothing
         })
       } 
@@ -30,7 +42,6 @@ vows.describe('value').addBatch({
         throw e
       }
     },
-
 
 
     'wild$': function( pb ) {
@@ -139,6 +150,160 @@ vows.describe('value').addBatch({
     },
 
 
+    'lt$': function( pb ) {
+      pb.validate({j: 1},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({j: 3}, function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'lt$')
+      })
+      
+      pb.validate({k: new Date("2012-09-03")}, function(err,res) {
+        assert.isNull(err)
+      })
+      
+      pb.validate({k: new Date("2012-09-04")}, function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'lt$')
+      })
+    },
+
+
+    'lte$': function( pb ) {
+      pb.validate({l: 1},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({l: 2},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({l: 3}, function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'lte$')
+      })
+      
+      pb.validate({m: new Date("2012-09-04")}, function(err,res) {
+        assert.isNull(err)
+      })
+      
+      pb.validate({m: new Date("2012-09-05")}, function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'lte$')
+      })
+    },
+
+
+    'gt$': function( pb ) {
+      pb.validate({n: 3},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({n: 2}, function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'gt$')
+      })
+      
+      pb.validate({o: new Date("2012-09-05")}, function(err,res) {
+        assert.isNull(err)
+      })
+      
+      pb.validate({o: new Date("2012-09-04")}, function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'gt$')
+      })
+    },
+
+
+    'gte$': function( pb ) {
+      pb.validate({p: 2},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({p: 3},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({p: 1}, function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'gte$')
+      })
+      
+      pb.validate({q: new Date("2012-09-04")},function(err,res) {
+        assert.isNull(err)
+      })
+      
+      pb.validate({q: new Date("2012-09-03")},function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'gte$')
+      })      
+    },
+
+
+    'min$': function( pb ) {
+      pb.validate({r: 2},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({r: 3},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({r: 1}, function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'min$')
+      })
+      
+      pb.validate({s: new Date("2012-09-04")},function(err,res) {
+        assert.isNull(err)
+      })
+      
+      pb.validate({s: new Date("2012-09-03")},function(err,res) {
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'min$')
+      })      
+    },
+
+
+    'max$': function( pb ) {
+      pb.validate({t: 1},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({t: 2},function(err,lt){
+        assert.isNull(err)
+      })
+
+      pb.validate({t: 3},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'max$')
+      })
+      
+      pb.validate({u: new Date("2012-09-04")},function(err,res){
+        assert.isNull(err)
+      })
+      
+      pb.validate({u: new Date("2012-09-05")},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'max$')
+      })
+    },
+
+    
+    'uniq$': function( pb ) {
+      pb.validate({v: [1,2,3]},function(err,res){
+        assert.isNull(err)
+      })
+      
+      pb.validate({v: [1,2,3,1]},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code, 'uniq$')
+      })
+    },
+    
+    
     're$': function( pb ) {
       pb.validate({e:'ez'},function(err,res){
         assert.isNull(err)
