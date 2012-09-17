@@ -20,6 +20,7 @@ vows.describe('type').addBatch({
           f: {type$:'array'},
           g: {type$:'object'},
           h: {type$:['date','string','array']},
+          i: {type$:['object']},
         })
       } 
       catch( e ) {
@@ -28,7 +29,8 @@ vows.describe('type').addBatch({
       }
     },
 
-    'multi-types': function( pb ) {
+    'multi-types-1': function( pb ) {
+//    ['string','number','integer','boolean','date','array','object',]
       pb.validate({},function(err,res){
         assert.isNull(err)
       })
@@ -37,9 +39,72 @@ vows.describe('type').addBatch({
         assert.isNull(err)
       })
 
+      pb.validate({h:new Date()},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({h:[1, 2, '3']},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({h:11.1},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+
       pb.validate({h:1},function(err,res){
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'type$')
+      })
+
+      pb.validate({h:true},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+
+      pb.validate({h:{a:1}},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+    },
+
+    'multi-types-2': function( pb ) {
+      pb.validate({},function(err,res){
+        assert.isNull(err)
+      })
+
+      pb.validate({i:'foo'},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+
+      pb.validate({i:new Date()},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+
+      pb.validate({i:[1, 2, '3']},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+
+      pb.validate({i:11.1},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+
+      pb.validate({i:1},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+
+      pb.validate({i:true},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+
+      pb.validate({i:{a:1}},function(err,res){
+        assert.isNull(err)
       })
     },
 
@@ -111,6 +176,11 @@ vows.describe('type').addBatch({
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'type$')
       })
+      
+      pb.validate({e:{a:1}},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
     },
 
 
@@ -124,6 +194,11 @@ vows.describe('type').addBatch({
       })
 
       pb.validate({f:'foo'},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
+      })
+
+      pb.validate({f:{a:1}},function(err,res){
         assert.isNotNull(err)
         assert.equal(err.parambulator.code,'type$')
       })
@@ -141,6 +216,11 @@ vows.describe('type').addBatch({
 
       pb.validate({g:{a:1}},function(err,res){
         assert.isNull(err)
+      })
+
+      pb.validate({g:new Date()},function(err,res){
+        assert.isNotNull(err)
+        assert.equal(err.parambulator.code,'type$')
       })
 
       pb.validate({g:[]},function(err,res){
