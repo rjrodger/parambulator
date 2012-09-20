@@ -1,6 +1,9 @@
 
 
 -- post 0.1
+
+- ctxt.util.proplist not good name - actually gets single or list of anything
+
 - test/document validate return value if no async calls
 - tests for type child rules
 - test for only$ rule
