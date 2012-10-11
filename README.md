@@ -10,7 +10,10 @@ Current Version: 0.0.1
 Tested on: node 0.6.15, 0.8.6, 0.9.0
 
 
-Use this module to validate input or configuration parameters provided as JSON. You can ensure that the JSON structure and data types are what you need. You'll get friendly, useful error messages for your users, and that makes your API better!
+Use this module to validate input or configuration parameters provided
+as JSON. You can ensure that the JSON structure and data types are
+what you need. You'll get friendly, useful error messages for your
+users, and that makes your API better!
 
 ```javascript
 var parambulator = require('parambulator')
@@ -29,7 +32,11 @@ paramcheck.validate( { price: 'free!' }, function(err) { console.log(err) } )
 
 _Why?_
 
-You're writing a module and you accept configuration as a structured JavaScript object. For example, opening a database connection: [MongoDB driver](http://mongodb.github.com/node-mongodb-native/api-generated/server.html). Or you want to have named parameters: [http.request](http://nodejs.org/api/http.html#http_http_request_options_callback).
+You're writing a module and you accept configuration as a structured
+JavaScript object. For example, opening a database connection:
+[MongoDB driver](http://mongodb.github.com/node-mongodb-native/api-generated/server.html). Or
+you want to have named parameters:
+[http.request](http://nodejs.org/api/http.html#http_http_request_options_callback).
 
 It's nice to be able to validate the input and provide useful error messages, without hand-coding the validation.
 
@@ -492,7 +499,7 @@ Apply a set of subrules recursively to the current point and all it's children.
 
 You can write your own rules if you need additional validation. The [range.js](https://github.com/rjrodger/parambulator/blob/master/doc/examples/range.js) example shows you how.
 
-Define your own rules inside the _rules_ property of the _prefs_ argument to _peramabulator_. Each rule is just a function, for example:
+Define your own rules inside the _rules_ property of the _prefs_ argument to _paramabulator_. Each rule is just a function, for example:
 
 ```javascript
 var pm = parambulator({...},{
@@ -565,7 +572,4 @@ Development is sponsored by [nearForm](http://nearform.com)
 
 <img src="http://www.nearform.com/img/sponsored-by-nearform.png" width="300">
 
-And a funky real time chart:
 
-![](http://chartaca.com/point/adb6995d-3425-4edf-8892-a6d1a232483d/s.gif)
-[Chartaca Hit Chart](http://chartaca.com/adb6995d-3425-4edf-8892-a6d1a232483d) 

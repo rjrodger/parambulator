@@ -2,6 +2,8 @@
 
 -- post 0.1
 
+- validate call should be optional - most common use case is non-async - need to be able to throw an exception
+
 - ctxt.util.proplist not good name - actually gets single or list of anything
 
 - test/document validate return value if no async calls
