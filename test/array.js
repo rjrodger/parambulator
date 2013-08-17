@@ -1,87 +1,81 @@
+/* Copyright (c) 2010-2013 Richard Rodger */
 
-var vows   = require('vows')
-var assert = require('assert')
+"use strict";
+
+
+var assert = require('chai').assert
 var gex    = require('gex')
 
-var parambulator = require('../lib/parambulator.js')
+var parambulator = require('..')
 
 
 
-vows.describe('array').addBatch({
-  'happy': {
-    topic: function() {
-      try {
-        return new parambulator.Parambulator({
-          z: 'required$',
-          foo: {
+describe('array', function() {
 
-            '__1': {
-              bar: 'required$'
-            },
-
-            '__0': 'required$',
-          },
-        })
-      } 
-      catch( e ) {
-        console.log(e.stack)
-        throw e
-      }
-    },
+  var pb
+  
+  it('happy', function() {
+    pb = new parambulator({
+      z: 'required$',
+      foo: {
+        
+        '__1': {
+          bar: 'required$'
+        },
+        
+        '__0': 'required$',
+      },
+    })
+  })
 
 
-    'z': function( pb ) {
-      pb.validate({z:1},function(err,res){
-        assert.isNull(err)
-      })
+  it('z', function() {
+    pb.validate({z:1},function(err,res){
+      assert.isNull(err)
+    })
 
-      pb.validate({},function(err,res){
-        assert.isNotNull(err)
-        assert.equal(err.parambulator.code,'required$')
-      })
-    },
-
-
-    'index0': function( pb ) {
-      pb.validate({z:1},function(err,res){
-        assert.isNull(err)
-      })
-
-      pb.validate({z:1,foo:[10]},function(err,res){
-        assert.isNull(err)
-      })
-
-      pb.validate({z:1,foo:[]},function(err,res){
-        assert.isNotNull(err)
-        assert.equal(err.parambulator.code,'required$')
-      })
+    pb.validate({},function(err,res){
+      assert.isNotNull(err)
+      assert.equal(err.parambulator.code,'required$')
+    })
+  })
 
 
-    },
+  it('index0', function() {
+    pb.validate({z:1},function(err,res){
+      assert.isNull(err)
+    })
+    
+    pb.validate({z:1,foo:[10]},function(err,res){
+      assert.isNull(err)
+    })
+    
+    pb.validate({z:1,foo:[]},function(err,res){
+      assert.isNotNull(err)
+      assert.equal(err.parambulator.code,'required$')
+    })
+  })
 
 
-    'index1': function( pb ) {
+  it('index1', function() {
 
-      pb.validate({z:1,foo:[10]},function(err,res){
-        assert.isNull(err)
-      })
+    pb.validate({z:1,foo:[10]},function(err,res){
+      assert.isNull(err)
+    })
 
-      pb.validate({z:1,foo:[{},{bar:1}]},function(err,res){
-        assert.isNull(err)
-      })
+    pb.validate({z:1,foo:[{},{bar:1}]},function(err,res){
+      assert.isNull(err)
+    })
 
-      pb.validate({z:1,foo:[{},{}]},function(err,res){
-        assert.isNotNull(err)
-        assert.equal(err.parambulator.code,'required$')
-      })
+    pb.validate({z:1,foo:[{},{}]},function(err,res){
+      assert.isNotNull(err)
+      assert.equal(err.parambulator.code,'required$')
+    })
 
-      pb.validate({z:1,foo:[{},{barx:1}]},function(err,res){
-        assert.isNotNull(err)
-        assert.equal(err.parambulator.code,'required$')
-      })
-    },
-
-
-  }
-}).export(module)
+    pb.validate({z:1,foo:[{},{barx:1}]},function(err,res){
+      assert.isNotNull(err)
+      assert.equal(err.parambulator.code,'required$')
+    })
+  })
+})
 

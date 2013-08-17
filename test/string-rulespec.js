@@ -5,12 +5,7 @@
 
 var assert = require('assert')
 
-var _      = require('underscore')
-
-
-
 var parambulator = require('..')
-
 
 
 describe('string-rulespec', function() {
