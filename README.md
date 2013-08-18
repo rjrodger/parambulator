@@ -3,7 +3,7 @@
 
 A simple way to generate nice error messages for named parameters.
 
-THis module is used by the <a href="http://senecajs.org">Seneca framework</a> for input validation.
+This module is used by the <a href="http://senecajs.org">Seneca framework</a> for input validation.
 
 If you're using this module, feel free to contact me on twitter if you have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
 
