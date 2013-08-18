@@ -3,11 +3,13 @@
 
 A simple way to generate nice error messages for named parameters.
 
+THis module is used by the <a href="http://senecajs.org">Seneca framework</a> for input validation.
+
 If you're using this module, feel free to contact me on twitter if you have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
 
-Current Version: 0.0.1
+Current Version: 0.1.2
 
-Tested on: node 0.6.15, 0.8.6, 0.9.0
+Tested on: node 0.10.6
 
 
 Use this module to validate input or configuration parameters provided
@@ -363,6 +365,26 @@ Match an input property. You can use wildcards. Accepts a set of sub rules, or a
 ```
 
 
+### boolean rules
+
+As a convenience, rules that take a property name, such as _required$_, can be specified for a property using the form:
+
+```javascript
+{
+  foo: 'required$',
+  bar: 'required$,string$'
+}
+```
+
+To use a _$_ symbol literally, use the form:
+
+```javascript
+{
+  foo: { eq$:'text containing $' }
+}
+```
+
+
 ### atmostone$
 
 Accept at most one of a list of properties. Accepts an array of property name strings. At most one of them can be present in the current point.
@@ -454,7 +476,16 @@ Check that a property value is of a given JavaScript type. Does not require the 
   e: {type$:'date'}, 
   f: {type$:'array'}, 
   g: {type$:'object'}, 
+  h: {type$:'function'}
 } 
+```
+
+As a convenience, the type rules can also be used in the form:
+
+```javascript
+{
+  $string: 'propname'
+}
 ```
 
 
@@ -468,6 +499,27 @@ Check that a property value is an exactly equal to the given value (must also ma
 }
 ```
 
+### comparisons
+
+The following comparison rules can be used:
+
+   * _lt$_: less than
+   * _lte$_: less than or equal to (alias: max$)
+   * _gt$_: greater than
+   * _gte$_: greater than or equal to (alias: min$)
+   * _gt$_: greater than
+
+For example:
+
+```javascript
+{ 
+  foo: {lt$:100}, 
+}
+```
+
+Comparisons also work on alphabetically on strings.
+
+
 
 ### enum$
 
@@ -478,6 +530,45 @@ Check that a property value is one of an enumerated list of values (can be of an
   color: {enum$:['red','green','blue']}, 
 }
 ```
+
+
+### uniq$
+
+Check that a list contains only unique properties.
+
+```javascript
+{ 
+  rainbow: 'uniq$'
+}
+```
+
+The above specification validates:
+
+```javascript
+{ 
+  rainbow: ['red','orange','yellow','green','blue','indigo','violet']
+}
+```
+
+But does not validate:
+
+```javascript
+{ 
+  rainbow: ['red','red','red','red','red','red','red']
+}
+```
+
+
+### only$
+
+Check that a property _name_ is one of an enumerated list of names, at this point
+
+```javascript
+{ 
+  options: {only$:['folder','duration','limit']}, 
+}
+```
+
 
 
 ### ** recursion
@@ -561,15 +652,5 @@ The other pseudo-rule that may come in handy is the `list$` rule. This lets you 
 ```
 
 Take a look at the definition of `ownparams` in [lib/parambulator.js](https://github.com/rjrodger/parambulator/blob/master/lib/parambulator.js) to see how _parambulator_ validates its own input.
-
-
-
-### Acknowledgements
-
-This module depends on the excellent [underscore](https://github.com/documentcloud/underscore) module.
-
-Development is sponsored by [nearForm](http://nearform.com)
-
-<img src="http://www.nearform.com/img/sponsored-by-nearform.png" width="300">
 
 

@@ -10,21 +10,21 @@
     "schema"
   ],
   "homepage": "https://github.com/rjrodger/parambulator",
-  "author": "Richard Rodger <richard@ricebridge.com> (http://richardrodger.com/)",
+  "author": "Richard Rodger (http://richardrodger.com/)",
   "contributors": [
-    "Richard Rodger <richard@ricebridge.com> (http://richardrodger.com/)"
+    "Richard Rodger (http://richardrodger.com/)"
   ],
-  "version": "0.1.1",
+  "version": "0.1.2",
   "main": "lib/parambulator",
   "repository": {
     "url": "https://github.com/rjrodger/parambulator.git"
   },
   "engines": {
-    "node": ">=0.6"
+    "node": ">=0.8"
   },
   "dependencies": {
-    "underscore": ">=1.3.3",
-    "gex": ">=0.0.3"
+    "underscore": "~1.5.1",
+    "gex": "~0.1.1"
   },
   "files": [
     "package.json",
@@ -33,8 +33,6 @@
     "lib/parambulator.js"
   ],
   "devDependencies": {
-    "eyes": "*",
-    "vows": "*",
     "chai": "~1.7.2"
   }
 }
