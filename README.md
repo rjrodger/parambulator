@@ -7,9 +7,9 @@ This module is used by the <a href="http://senecajs.org">Seneca framework</a> fo
 
 If you're using this module, feel free to contact me on twitter if you have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
 
-Current Version: 0.1.2
+Current Version: 0.1.3
 
-Tested on: node 0.10.6
+Tested on: Node 0.10.19
 
 
 Use this module to validate input or configuration parameters provided
