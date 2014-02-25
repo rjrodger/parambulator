@@ -654,3 +654,7 @@ The other pseudo-rule that may come in handy is the `list$` rule. This lets you 
 Take a look at the definition of `ownparams` in [lib/parambulator.js](https://github.com/rjrodger/parambulator/blob/master/lib/parambulator.js) to see how _parambulator_ validates its own input.
 
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/rjrodger/parambulator/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
