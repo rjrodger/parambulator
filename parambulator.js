@@ -1,43 +1,12 @@
-/*
-Copyright (c) 2012 Richard Rodger
-
-BSD License
------------
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are
-met:
-
-1. Redistributions of source code must retain the above copyright
-notice, this list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright
-notice, this list of conditions and the following disclaimer in the
-documentation and/or other materials provided with the distribution.
-
-3. The names of the copyright holders and contributors may not be used
-to endorse or promote products derived from this software without
-specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE
-*/
-
-
+/* Copyright (c) 2012-2014 Richard Rodger, MIT License */
 "use strict";
 
+
 var util = require('util')
-var _ = require('underscore')
-var gex = require('gex')
+var _    = require('underscore')
+
+var gex    = require('gex')
+var jsonic = require('jsonic')
 
 
 var arrayify = function(){ return Array.prototype.slice.call(arguments[0],arguments[1]) }
@@ -108,9 +77,39 @@ var childrule = function( pass, noneok, rulename ) {
   }
 }
 
+/*
+var parentchildrule = function( pass, noneok, rulename ) {
+  var child = childrule(pass,noneok,rulename)
+
+  return function(ctxt,cb) {
+    var pn = ctxt.rule.spec
+    console.log(ctxt.prop)
+    console.log(ctxt.parents)
+
+    if( _.isBoolean(pn) && pn ) {
+      var parent = 0 < ctxt.parents.length ? ctxt.parents[ctxt.parents.length-1] : null
+      console.log('PARENT:')
+      console.dir(parent)
+      console.trace()
+
+      if( null != parent ) {
+        console.log(pass.toString())
+        if( !pass(ctxt,parent.prop,parent.point) ) {
+          return ctxt.util.fail(ctxt,cb)
+        }
+      }
+      else cb();
+    }
+    else return child(ctxt,cb)
+  }
+}
+*/
 
 function proplist(ctxt) {
   var pn = ctxt.rule.spec
+
+  // TODO: handle comma separated strings
+  // https://github.com/rjrodger/parambulator/issues/19
 
   if( !_.isArray(pn) ) {
     pn = [''+pn]
@@ -125,6 +124,7 @@ function proplist(ctxt) {
     else all.push(n);
   })
 
+  //console.log('proplist '+ctxt.rule.spec+' -> '+all)
   return all
 }
 
@@ -380,9 +380,11 @@ var rulemap = {
     function eachprop(propI) {
       if( propI < pn.length ) {
         var p = pn[propI]
+
+        subctxt.parents = subctxt.parents.concat({prop:ctxt.prop,point:ctxt.point})
+
         subctxt.prop  = p
-        subctxt.point = ctxt.point[p]
-        subctxt.parents = subctxt.parents.concat(p)
+        subctxt.point = subctxt.point ? subctxt.point[p] : null
 
         subctxt.util.execrules(subctxt,function(err){
           if( err ) return cb(err);
@@ -410,7 +412,7 @@ var rulemap = {
 
       var subctxt = ctxt.util.clone(ctxt)
       subctxt.rules   = ctxt.rule.spec.rules
-      subctxt.parents = '$'!=prop?subctxt.parents.concat(prop):subctxt.parents
+      subctxt.parents = '$'!=prop?subctxt.parents.concat({prop:subctxt.prop,point:subctxt.point}):subctxt.parents
 
       function eachprop(propI,cb) {
         if( propI < pn.length ) {
@@ -418,7 +420,7 @@ var rulemap = {
           var eachpropctxt = subctxt.util.clone(subctxt)
           eachpropctxt.prop  = p
           eachpropctxt.point = point[p]
-          eachpropctxt.parents = '$'!=p?eachpropctxt.parents.concat(p):eachpropctxt.parents
+          eachpropctxt.parents = '$'!=p?eachpropctxt.parents.concat({prop:subctxt.prop,point:subctxt.point}):eachpropctxt.parents
 
           eachpropctxt.util.execrules(eachpropctxt,function(err){
             if( err ) return cb(err);
@@ -444,7 +446,7 @@ var rulemap = {
     var prop = ctxt.rule.spec.prop
 
     subctxt.rules   = ctxt.rule.spec.rules
-    subctxt.parents = subctxt.parents.concat(prop)
+    subctxt.parents = subctxt.parents.concat({prop:subctxt.prop,point:subctxt.point})
     subctxt.prop    = prop
     subctxt.point   = ctxt.point[prop]
 
@@ -516,7 +518,7 @@ function clone(ctxt) {
 function formatparents(parents,topname) {
   var out = topname || 'top level'
   if( 0 < parents.length ) {
-    out = parents.join('.')
+    out = _.map(parents,function(p){return p.prop}).join('.')
     if( topname ) {
       out = topname+'.'+out
     }
@@ -611,15 +613,21 @@ function Parambulator( spec, pref ) {
   pref = pref || {}
   var defaultrules = []
 
+  if( _.isString(spec) ) {
+    spec = jsonic(spec)
+  }
+
   if( !spec || !_.isObject(spec) || _.isArray(spec) ) {
     throw new Error('Parambulator: spec argument is not an object')
   }
 
+  /*
   if( exp.ownparams ) {
     exp.ownparams.validate(spec,function(err){
       if( err ) throw err;
     })
   }
+   */
 
   if( pref ) {
     if( exp.ownprefs ) {
@@ -730,7 +738,7 @@ function Parambulator( spec, pref ) {
 
       // it's a rule - name$ syntax
       else if( name.match(/\$$/) ) {
-        var rule = buildrule(name,rulespec)
+        var rule = buildrule(name,rulespec,spec)
         rules.push(rule)
       }
 
@@ -745,6 +753,15 @@ function Parambulator( spec, pref ) {
       // it's a property
       else {
         if( _.isObject(rulespec) && !_.isArray(rulespec) ) {
+
+          _.each( rulespec, function(v,p){
+            if( p.match(/\$$/) && _.isBoolean(v) && v ) {
+              var rule = buildrule(p,name,spec)
+              rules.push(rule)
+              delete rulespec[p]
+            }
+          })
+
           var subrules = parse( rulespec )
           var rule = buildrule('iterate$',{prop:name,rules:subrules})
           rules.push(rule)
@@ -770,6 +787,18 @@ function Parambulator( spec, pref ) {
         }
 
         // TODO: else check for other types, and use eq$ !!!
+
+        else if( _.isNumber(rulespec) ) {
+          rules.push( buildrule('descend$',{
+            prop:name,rules:[buildrule('eq$',rulespec)]
+          }))
+        }
+
+        else if( _.isBoolean(rulespec) ) {
+          rules.push( buildrule('descend$',{
+            prop:name,rules:[buildrule('eq$',rulespec)]
+          }))
+        }
 
         else {
           throw new Error("Parambulator: Unrecognized rule specification: "+rulespec)
@@ -897,7 +926,7 @@ function Parambulator( spec, pref ) {
       if (err){
         wrapcb(err,{log:ctxt.log})
       }
-      else{
+      else {
         execrules(ctxt,function(err){
           wrapcb(err,{log:ctxt.log})
         })

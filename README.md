@@ -7,9 +7,9 @@ This module is used by the <a href="http://senecajs.org">Seneca framework</a> fo
 
 If you're using this module, feel free to contact me on twitter if you have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
 
-Current Version: 0.1.3
+Current Version: 0.1.5
 
-Tested on: Node 0.10.19
+Tested on: Node 0.10.24
 
 
 Use this module to validate input or configuration parameters provided
@@ -428,6 +428,7 @@ Specify a set of required properties. Accepts an array of property name strings,
 { required$: ['foo','b*'] } // wildcards work too!
 { required$: 'bar' }        // for convenience
 { bar: 'required$' }        // for extra convenience
+{ bar: {required$:true} }   // for extra extra convenience
 { 'b*': 'required$' }       // and that's just nice
 ```
 

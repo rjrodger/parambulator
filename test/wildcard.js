@@ -57,7 +57,8 @@ describe('array', function() {
   })
 
 
-  it('*', function() {
+  it('star', function() {
+
 
     pb.validate({z:1,x:{a:1},y:{a:2}},function(err,res){
       assert.isNull(err)

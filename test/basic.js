@@ -13,6 +13,8 @@ describe('basic', function() {
 
   var pb
 
+
+
   it('happy', function() {
     pb = parambulator({
       atmostone$: ['path','from'],
@@ -33,7 +35,10 @@ describe('basic', function() {
       required$: ['foo','bar'],
       notempty$: ['z'],
     })
+
+
   }) 
+
 
 
   it('required$', function() {
@@ -184,6 +189,48 @@ describe('basic', function() {
       assert.equal('notempty$',err.parambulator.code)
     })
   })
+
+
+  it('pbeasy', function() {
+    var pbeasy_one = parambulator({one:{string$:true,required$:true}})
+
+    pbeasy_one.validate({one:'a'},function(err,res){
+      assert.isNull(err)
+    })
+
+    pbeasy_one.validate({},function(err,res){
+      assert.isNotNull(err)
+      assert.equal('required$',err.parambulator.code)
+    })
+
+
+    var pbeasy_deep = parambulator({one:{required$:true,two:{string$:true,required$:true}}})
+
+    pbeasy_deep.validate({one:{two:'a'}},function(err,res){
+      assert.isNull(err)
+    })
+
+    pbeasy_deep.validate({one:{}},function(err,res){
+      assert.isNotNull(err)
+      assert.equal('required$',err.parambulator.code)
+    })
+
+
+    var pbeasy_two = parambulator({a:1,b:'q',c:{required$:true}})
+
+    pbeasy_two.validate({a:1,b:'q',c:'w'},function(err,res){
+      assert.isNull(err)
+    })
+
+    pbeasy_two.validate({a:1,b:'q'},function(err,res){
+      //console.log(err)
+      assert.isNotNull(err)
+      assert.equal('required$',err.parambulator.code)
+    })
+
+
+  })
+
 })
 
 
