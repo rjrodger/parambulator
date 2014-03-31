@@ -14,7 +14,7 @@
   "contributors": [
     "Richard Rodger (http://richardrodger.com/)"
   ],
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "parambulator.js",
   "repository": {
     "url": "https://github.com/rjrodger/parambulator.git"
@@ -28,7 +28,7 @@
     "package.json",
     "LICENSE.txt",
     "README.md",
-    "lib/parambulator.js"
+    "parambulator.js"
   ],
   "devDependencies": {
     "chai": "~1.9.1",
