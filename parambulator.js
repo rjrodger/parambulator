@@ -77,34 +77,6 @@ var childrule = function( pass, noneok, rulename ) {
   }
 }
 
-/*
-var parentchildrule = function( pass, noneok, rulename ) {
-  var child = childrule(pass,noneok,rulename)
-
-  return function(ctxt,cb) {
-    var pn = ctxt.rule.spec
-    console.log(ctxt.prop)
-    console.log(ctxt.parents)
-
-    if( _.isBoolean(pn) && pn ) {
-      var parent = 0 < ctxt.parents.length ? ctxt.parents[ctxt.parents.length-1] : null
-      console.log('PARENT:')
-      console.dir(parent)
-      console.trace()
-
-      if( null != parent ) {
-        console.log(pass.toString())
-        if( !pass(ctxt,parent.prop,parent.point) ) {
-          return ctxt.util.fail(ctxt,cb)
-        }
-      }
-      else cb();
-    }
-    else return child(ctxt,cb)
-  }
-}
-*/
-
 function proplist(ctxt) {
   var pn = ctxt.rule.spec
 
@@ -124,7 +96,6 @@ function proplist(ctxt) {
     else all.push(n);
   })
 
-  //console.log('proplist '+ctxt.rule.spec+' -> '+all)
   return all
 }
 
@@ -375,18 +346,20 @@ var rulemap = {
     }
 
     var subctxt = ctxt.util.clone(ctxt)
-    subctxt.rules   = ctxt.rule.spec.rules
+    subctxt.rules = ctxt.rule.spec.rules
 
     function eachprop(propI) {
       if( propI < pn.length ) {
         var p = pn[propI]
 
-        subctxt.parents = subctxt.parents.concat({prop:ctxt.prop,point:ctxt.point})
+        var psubctxt = ctxt.util.clone(subctxt)
 
-        subctxt.prop  = p
-        subctxt.point = subctxt.point ? subctxt.point[p] : null
+        psubctxt.parents = subctxt.parents.concat({prop:ctxt.prop,point:ctxt.point})
 
-        subctxt.util.execrules(subctxt,function(err){
+        psubctxt.prop  = p
+        psubctxt.point = subctxt.point ? subctxt.point[p] : null
+
+        psubctxt.util.execrules(psubctxt,function(err){
           if( err ) return cb(err);
           eachprop(propI+1)
         })
@@ -648,6 +621,12 @@ function Parambulator( spec, pref ) {
   //var rulenames = proporder(spec)
   var rules = parse(spec)
   parsedefault(spec, [], [])
+
+
+  self.toString = function() {
+    return util.inspect(rules,{depth:null})
+  }
+
 
   /*
    * Example:
