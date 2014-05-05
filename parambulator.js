@@ -88,7 +88,6 @@ var childrule = function( pass, noneok, rulename ) {
   }
 }
 
-
 function proplist(ctxt) {
   var pn = ctxt.rule.spec
 
@@ -358,18 +357,20 @@ var rulemap = {
     }
 
     var subctxt = ctxt.util.clone(ctxt)
-    subctxt.rules   = ctxt.rule.spec.rules
+    subctxt.rules = ctxt.rule.spec.rules
 
     function eachprop(propI) {
       if( propI < pn.length ) {
         var p = pn[propI]
 
-        subctxt.parents = subctxt.parents.concat({prop:ctxt.prop,point:ctxt.point})
+        var psubctxt = ctxt.util.clone(subctxt)
 
-        subctxt.prop  = p
-        subctxt.point = subctxt.point ? subctxt.point[p] : null
+        psubctxt.parents = subctxt.parents.concat({prop:ctxt.prop,point:ctxt.point})
 
-        subctxt.util.execrules(subctxt,function(err){
+        psubctxt.prop  = p
+        psubctxt.point = subctxt.point ? subctxt.point[p] : null
+
+        psubctxt.util.execrules(psubctxt,function(err){
           if( err ) return cb(err);
           eachprop(propI+1)
         })
@@ -631,6 +632,12 @@ function Parambulator( spec, pref ) {
   //var rulenames = proporder(spec)
   var rules = parse(spec)
   parsedefault(spec, [], [])
+
+
+  self.toString = function() {
+    return util.inspect(rules,{depth:null})
+  }
+
 
   /*
    * Example:

@@ -13,7 +13,7 @@ var parambulator = require('..')
 describe('array', function() {
 
   var pb = parambulator({
-
+    
     atmostone$: 'a*',
 
     '*': {
@@ -31,8 +31,10 @@ describe('array', function() {
     },
 
     'z*': 'required$'
-
   })
+
+
+  //console.log(''+pb)
 
 
   it('a*', function() {
@@ -58,18 +60,14 @@ describe('array', function() {
 
 
   it('star', function() {
-
-
     pb.validate({z:1,x:{a:1},y:{a:2}},function(err,res){
       assert.isNull(err)
     })
-
 
     pb.validate({z:1,x:{a:'b'}},function(err,res){
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
-
 
     pb.validate({z:1,x:[{a:1},{a:2}]},function(err,res){
       assert.isNull(err)
@@ -84,7 +82,9 @@ describe('array', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+
   })
+
 
 
   it('**', function() {
