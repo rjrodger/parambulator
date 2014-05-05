@@ -1,12 +1,23 @@
 /* Copyright (c) 2012-2014 Richard Rodger, MIT License */
-"use strict";
+
+/*
+ (function() {
+ "use strict";
+
+ var root           = this
+ var previous_parambulator = root.parambulator
+
+ var has_require = typeof require !== 'undefined'
+ */
 
 
-var util = require('util')
-var _    = require('underscore')
-
+var util   = require('util')
+var _      = require('underscore')
 var gex    = require('gex')
 var jsonic = require('jsonic')
+
+
+
 
 
 var arrayify = function(){ return Array.prototype.slice.call(arguments[0],arguments[1]) }
@@ -44,7 +55,7 @@ var lenrule = function( pass ) {
         }
       }
     }
-	
+    
     return cb()
   }
 };
@@ -77,33 +88,6 @@ var childrule = function( pass, noneok, rulename ) {
   }
 }
 
-/*
-var parentchildrule = function( pass, noneok, rulename ) {
-  var child = childrule(pass,noneok,rulename)
-
-  return function(ctxt,cb) {
-    var pn = ctxt.rule.spec
-    console.log(ctxt.prop)
-    console.log(ctxt.parents)
-
-    if( _.isBoolean(pn) && pn ) {
-      var parent = 0 < ctxt.parents.length ? ctxt.parents[ctxt.parents.length-1] : null
-      console.log('PARENT:')
-      console.dir(parent)
-      console.trace()
-
-      if( null != parent ) {
-        console.log(pass.toString())
-        if( !pass(ctxt,parent.prop,parent.point) ) {
-          return ctxt.util.fail(ctxt,cb)
-        }
-      }
-      else cb();
-    }
-    else return child(ctxt,cb)
-  }
-}
-*/
 
 function proplist(ctxt) {
   var pn = ctxt.rule.spec
@@ -124,7 +108,6 @@ function proplist(ctxt) {
     else all.push(n);
   })
 
-  //console.log('proplist '+ctxt.rule.spec+' -> '+all)
   return all
 }
 
@@ -568,7 +551,7 @@ function fail() {
   }
 
   var msg = ctxt.msgs[code] || code
- 
+  
   if( _.isFunction(msg) ) {
     msg = msg(inserts,ctxt)
   }
@@ -604,10 +587,10 @@ function proporder(obj) {
 
 /*
 
-name$ -> rule name
-name  -> property names
+ name$ -> rule name
+ name  -> property names
 
-*/
+ */
 function Parambulator( spec, pref ) {
   var self = {}
   pref = pref || {}
@@ -622,11 +605,11 @@ function Parambulator( spec, pref ) {
   }
 
   /*
-  if( exp.ownparams ) {
-    exp.ownparams.validate(spec,function(err){
-      if( err ) throw err;
-    })
-  }
+   if( exp.ownparams ) {
+   exp.ownparams.validate(spec,function(err){
+   if( err ) throw err;
+   })
+   }
    */
 
   if( pref ) {
@@ -837,7 +820,7 @@ function Parambulator( spec, pref ) {
           if( !ctxt.point ) {
             return execrule(ruleI+1)
           }
-            
+          
           ctxt.rule = rule
 
           var specstr = JSON.stringify(rule.spec,killcircles())
@@ -863,14 +846,14 @@ function Parambulator( spec, pref ) {
       execrule(0)
     }
 
-   /*
-    * Example:
-    * For a: {"pathnames":["a"],"pathtypes":[],"defaultvalue":123}
-    * creates {a:123}
-    *
-    * for d: {"pathnames":["d","0"],"pathtypes":["array"],"defaultvalue":"arraytest0"}
-    * creates {d: ['arraytest0']}
-    */
+    /*
+     * Example:
+     * For a: {"pathnames":["a"],"pathtypes":[],"defaultvalue":123}
+     * creates {a:123}
+     *
+     * for d: {"pathnames":["d","0"],"pathtypes":["array"],"defaultvalue":"arraytest0"}
+     * creates {d: ['arraytest0']}
+     */
     function validatedefaults(ctxt, cb){
       for (var ruleindex in defaultrules){
         var rule = defaultrules[ruleindex]
@@ -967,14 +950,14 @@ exp.ownparams = new Parambulator({
       ['prop$',{name:'enum$', rules:{type$:'array'}}],
       ['prop$',{name:'list$', rules:{type$:'array'}}],
 
-// This can work only after #1 is implemented
-// these should also work for strings, right?
-//      ['prop$',{name:'lt$',  rules:{type$:['number','date']}}],
-//      ['prop$',{name:'lte$', rules:{type$:['number','date']}}],
-//      ['prop$',{name:'gt$',  rules:{type$:['number','date']}}],
-//      ['prop$',{name:'gte$', rules:{type$:['number','date']}}],
-//      ['prop$',{name:'min$', rules:{type$:['number','date']}}],
-//      ['prop$',{name:'max$', rules:{type$:['number','date']}}],
+      // This can work only after #1 is implemented
+      // these should also work for strings, right?
+      //      ['prop$',{name:'lt$',  rules:{type$:['number','date']}}],
+      //      ['prop$',{name:'lte$', rules:{type$:['number','date']}}],
+      //      ['prop$',{name:'gt$',  rules:{type$:['number','date']}}],
+      //      ['prop$',{name:'gte$', rules:{type$:['number','date']}}],
+      //      ['prop$',{name:'min$', rules:{type$:['number','date']}}],
+      //      ['prop$',{name:'max$', rules:{type$:['number','date']}}],
 
       ['prop$',{name:'uniq$', rules:{type$:'array'}}]
     ]
@@ -1037,3 +1020,25 @@ exp.Parambulator = Parambulator
 
 module.exports = exp
 
+/*
+ 
+ root.parambulator = exp
+
+ exp.noConflict = function() {
+ root.previous_parambulator = previous_parambulator;
+ return self;
+ }
+
+
+ if( typeof exports !== 'undefined' ) {
+ if( typeof module !== 'undefined' && module.exports ) {
+ exports = module.exports = exp
+ }
+ exports.parambulator = exp
+ } 
+ else {
+ root.parambulator = exp
+ }
+
+ }).call(this);
+ */
