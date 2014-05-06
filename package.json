@@ -20,8 +20,8 @@
     "url": "https://github.com/rjrodger/parambulator.git"
   },
   "dependencies": {
-    "underscore": "~1.5.2",
-    "gex": "~0.1.3",
+    "underscore": "~1.6.0",
+    "gex": "~0.1.4",
     "jsonic": "~0.1.1"
   },
   "files": [
@@ -32,9 +32,14 @@
   ],
   "devDependencies": {
     "chai": "~1.9.1",
-    "mocha": "~1.18.2"
+    "mocha": "~1.18.2",
+    "jasmine-node": "~1.14.3",
+    "phantomjs": "~1.9.7-5",
+    "uglify-js": "~2.4.13"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha test/*.js"
+    "test": "./node_modules/.bin/jasmine-node ./test/parambulator.spec.js",
+    "browser": "./node_modules/.bin/phantomjs test/run-jasmine.js test/jasmine.html",
+    "build": "./node_modules/.bin/uglifyjs parambulator.js -c \"evaluate=false\" -m --source-map parambulator-min.map -o parambulator-min.js"
   }
 }
