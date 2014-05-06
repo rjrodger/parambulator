@@ -7,9 +7,9 @@ This module is used by the <a href="http://senecajs.org">Seneca framework</a> fo
 
 If you're using this module, feel free to contact me on twitter if you have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
 
-Current Version: 0.1.6
+Current Version: 0.1.7
 
-Tested on: Node 0.10.24
+Tested on: Node 0.10.26, Chrome 34
 
 
 Use this module to validate input or configuration parameters provided
@@ -65,9 +65,18 @@ And yes Virginia, it does [validate its own input](http://en.wikipedia.org/wiki/
 
     npm install parambulator
 
+or
+
+    bower install parambulator
+
+
 And in your code:
 
     var parambulator = require('parambulator')
+
+or
+
+    <script src="bower_components/parambulator/parambulator-min.js"></script>
 
 
 ## Usage
