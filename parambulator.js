@@ -386,7 +386,7 @@
 
           var psubctxt = ctxt.util.clone(subctxt)
 
-          psubctxt.parents = subctxt.parents.concat({prop:ctxt.prop,point:ctxt.point})
+          psubctxt.parents = subctxt.parents.concat({prop:p,point:subctxt.point})
 
           psubctxt.prop  = p
           psubctxt.point = subctxt.point ? subctxt.point[p] : null
@@ -451,9 +451,9 @@
       var prop = ctxt.rule.spec.prop
 
       subctxt.rules   = ctxt.rule.spec.rules
-      subctxt.parents = subctxt.parents.concat({prop:subctxt.prop,point:subctxt.point})
       subctxt.prop    = prop
       subctxt.point   = ctxt.point[prop]
+      subctxt.parents = subctxt.parents.concat({prop:prop,point:ctxt.point})
 
       subctxt.util.execrules(subctxt,function(err){
         if( err ) return cb(err);
@@ -583,7 +583,15 @@
     }
 
     var err = new Error( msg )
-    err.parambulator = {parents:ctxt.parents,code:code,point:ctxt.point,rule:ctxt.rule}
+    err.parambulator = {
+      code:code,
+      property:ctxt.prop,
+      value:ctxt.point,
+      expected:ctxt.rule.spec,
+
+      parents:ctxt.parents,
+      point:ctxt.point,
+      rule:ctxt.rule}
 
     return cb(err)
   }
@@ -656,7 +664,7 @@
 
 
     self.toString = function() {
-      return util.inspect(rules,{depth:null})
+      return JSON.stringify(rules)
     }
 
 

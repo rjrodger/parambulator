@@ -7,7 +7,7 @@ This module is used by the <a href="http://senecajs.org">Seneca framework</a> fo
 
 If you're using this module, feel free to contact me on twitter if you have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
 
-Current Version: 0.1.7
+Current Version: 0.1.8
 
 Tested on: Node 0.10.26, Chrome 34
 
