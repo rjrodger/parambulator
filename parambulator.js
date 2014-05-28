@@ -587,7 +587,7 @@
       code:code,
       property:ctxt.prop,
       value:ctxt.point,
-      expected:ctxt.rule.spec,
+      expected: ctxt.rule ? ctxt.rule.spec : undefined,
 
       parents:ctxt.parents,
       point:ctxt.point,
