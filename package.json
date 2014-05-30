@@ -14,7 +14,7 @@
   "contributors": [
     "Richard Rodger (http://richardrodger.com/)"
   ],
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "parambulator.js",
   "repository": {
     "url": "https://github.com/rjrodger/parambulator.git"
@@ -32,8 +32,8 @@
   ],
   "devDependencies": {
     "chai": "~1.9.1",
-    "mocha": "~1.18.2",
     "jasmine-node": "~1.14.3",
+    "mocha": "~1.18.2",
     "phantomjs": "~1.9.7-5",
     "uglify-js": "~2.4.13"
   },
