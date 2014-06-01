@@ -624,11 +624,11 @@ return ctxt.util.fail(ctxt,cb)
 
 Just ensure you have a custom message with the same name as the rule!
 
-The built-in rule definitions in [lib/parambulator.js](https://github.com/rjrodger/parambulator/blob/master/lib/parambulator.js) are also a good resource.
+The built-in rule definitions in [parambulator.js](https://github.com/rjrodger/parambulator/blob/master/parambulator.js) are also a good resource.
 
 Tweet me [@rjrodger](http://twitter.com/rjrodger) if you get stuck.
 
-By the way, if you have a cool new rule and you thing it should be built-in, send me a pull request! Just follow the pattern for, say, _wild$_ in [lib/parambulator.js](https://github.com/rjrodger/parambulator/blob/master/lib/parambulator.js). You'll need entries in _rulemap_, _msgsmap_, and _ownparams_.
+By the way, if you have a cool new rule and you thing it should be built-in, send me a pull request! Just follow the pattern for, say, _wild$_ in [parambulator.js](https://github.com/rjrodger/parambulator/blob/master/parambulator.js). You'll need entries in _rulemap_, _msgsmap_, and _ownparams_.
 
 
 
@@ -661,6 +661,6 @@ The other pseudo-rule that may come in handy is the `list$` rule. This lets you 
 }
 ```
 
-Take a look at the definition of `ownparams` in [lib/parambulator.js](https://github.com/rjrodger/parambulator/blob/master/lib/parambulator.js) to see how _parambulator_ validates its own input.
+Take a look at the definition of `ownparams` in [parambulator.js](https://github.com/rjrodger/parambulator/blob/master/parambulator.js) to see how _parambulator_ validates its own input.
 
 
