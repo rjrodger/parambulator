@@ -56,8 +56,6 @@ Key Features:
    * Add your own rules
    * Customize the error messages
    
-This is still an early version so there's probably some wierdness - let me know.
-
 And yes Virginia, it does [validate its own input](http://en.wikipedia.org/wiki/Self-hosting).
 
 
