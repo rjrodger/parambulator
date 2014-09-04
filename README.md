@@ -420,7 +420,7 @@ Accept at least one of a list of properties. Accepts an array of property name s
 
 ```javascript
 {
-  exactlyone$: ['foo','bar']
+  atleastone$: ['foo','bar']
 }
 ```
 
