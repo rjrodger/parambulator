@@ -271,14 +271,14 @@
       var pn = ctxt.util.proplist(ctxt)
 
       var checkmap = {
-        string:_.isString,
-        number:_.isNumber,
-        integer:function(v){return _.isNumber(v) && v===(v|0)},
-        boolean:_.isBoolean,
-        date:_.isDate,
-        array:_.isArray,
-        object:function(v){return _.isObject(v) && !_.isArray(v) && !_.isDate(v)},
-        function:function(v){return _.isFunction(v)}
+        'string':_.isString,
+        'number':_.isNumber,
+        'integer':function(v){return _.isNumber(v) && v===(v|0)},
+        'boolean':_.isBoolean,
+        'date':_.isDate,
+        'array':_.isArray,
+        'object':function(v){return _.isObject(v) && !_.isArray(v) && !_.isDate(v)},
+        'function':function(v){return _.isFunction(v)}
       }
 
       var found = 0;
