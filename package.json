@@ -14,7 +14,7 @@
   "contributors": [
     "Richard Rodger (http://richardrodger.com/)"
   ],
-  "version": "0.1.10",
+  "version": "0.1.11",
   "main": "parambulator.js",
   "repository": {
     "url": "https://github.com/rjrodger/parambulator.git"
