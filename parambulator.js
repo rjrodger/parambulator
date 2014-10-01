@@ -67,14 +67,14 @@
       var value = ctxt.point
 
       if( !_.isUndefined(value) ) {
-        var valuelen = _.isObject(value) ? Object.keys(value).length : value.length 
+        var valuelen = _.isObject(value) ? Object.keys(value).length : value.length
         if ( !_.isUndefined( valuelen ) ){
           if ( !pass( valuelen, len ) ) {
             return ctxt.util.fail(ctxt,cb)
           }
         }
       }
-      
+
       return cb()
     }
   };
@@ -118,7 +118,7 @@
     if( !_.isArray(pn) ) {
       pn = [''+pn]
     }
-    
+
     var all = []
     pn.forEach(function(n){
 
@@ -160,12 +160,12 @@
 
     required$: childrule( function(ctxt,p,v){return !_.isUndefined(v)}, falsefn, 'required$' ),
 
-    notempty$: childrule( 
+    notempty$: childrule(
       function(ctxt,p,v){
         return !_.isUndefined(v) && !_.isNull(v) && ''!=v
-      }, 
+      },
       truefn,
-      'notempty$' 
+      'notempty$'
     ),
 
     string$:   childrule( function(ctxt,p,v){return noval(v) || _.isString(v)}, truefn, 'string$' ),
@@ -176,7 +176,7 @@
     array$:    childrule( function(ctxt,p,v){return noval(v) || _.isArray(v)}, truefn, 'array$' ),
     object$:   childrule( function(ctxt,p,v){return noval(v) || _.isObject(v) && !_.isArray(v)}, truefn, 'object$' ),
     function$: childrule( function(ctxt,p,v){return noval(v) || _.isFunction(v)}, truefn, 'function$' ),
-    
+
     lt$:  valrule( function(p,v){return p < v} ),
     lte$: valrule( function(p,v){return p <= v} ),
     gt$:  valrule( function(p,v){return p > v} ),
@@ -206,7 +206,7 @@
       for( var p in ctxt.point ) {
         if( !_.include(pn,p) ) {
           ctxt.prop = p
-          return ctxt.util.fail(ctxt,cb)        
+          return ctxt.util.fail(ctxt,cb)
         }
       }
 
@@ -229,7 +229,7 @@
 
     eq$: function(ctxt,cb) {
       var value = ctxt.point
-      
+
       if( !_.isUndefined(value) ) {
         if( ctxt.rule.spec !== value ) {
           return ctxt.util.fail(ctxt,cb)
@@ -278,7 +278,7 @@
         date:_.isDate,
         array:_.isArray,
         object:function(v){return _.isObject(v) && !_.isArray(v) && !_.isDate(v)},
-        function:function(v){return _.isFunction(v)}
+        'function':function(v){return _.isFunction(v)}
       }
 
       var found = 0;
@@ -290,7 +290,7 @@
           }
         }
       )
-      
+
       if( !found ) {
         return ctxt.util.fail(ctxt,cb)
       }
@@ -318,7 +318,7 @@
           }
         }
       )
-      
+
       if( !found ) {
         return ctxt.util.fail(ctxt,cb)
       }
@@ -368,7 +368,7 @@
     iterate$: function(ctxt,cb) {
       var pn = [ctxt.rule.spec.prop]
 
-      if( _.isObject(ctxt.point) ) { 
+      if( _.isObject(ctxt.point) ) {
         if( _.isArray(ctxt.point) ) {
           pn = gex( ctxt.rule.spec.prop ).on( _.range(ctxt.point.length))
         }
@@ -407,7 +407,7 @@
       var recurctxt = ctxt.util.clone(ctxt)
       recurctxt.point = {$:ctxt.point}
       recurse('$',recurctxt.point,cb)
-      
+
       function recurse(prop,point,cb) {
         if( !_.isObject(point) ) {
           return cb(null)
@@ -498,7 +498,7 @@
     gt$:         "The value <%=value%> is not greater than '<%=rule.spec%>' (parent: <%=parentpath%>).",
     gte$:        "The value <%=value%> is not not greater than or equal with '<%=rule.spec%>' (parent: <%=parentpath%>).",
     min$:        "The value <%=value%> is not not greater than or equal with '<%=rule.spec%>' (parent: <%=parentpath%>).",
-    max$:        "The value <%=value%> is not less than or equal with '<%=rule.spec%>' (parent: <%=parentpath%>).",  
+    max$:        "The value <%=value%> is not less than or equal with '<%=rule.spec%>' (parent: <%=parentpath%>).",
     uniq$:       "The value <%=value%> has duplicate elements.",
     enum$:       "The value <%=value%> must be one of '<%=rule.spec%>' (parent: <%=parentpath%>)."
 
@@ -573,7 +573,7 @@
     }
 
     var msg = ctxt.msgs[code] || code
-    
+
     if( _.isFunction(msg) ) {
       msg = msg(inserts,ctxt)
     }
@@ -587,7 +587,7 @@
       code:code,
       property:ctxt.prop,
       value:ctxt.point,
-      expected: ctxt.rule ? ctxt.rule.spec : undefined,
+      expected:ctxt.rule.spec,
 
       parents:ctxt.parents,
       point:ctxt.point,
@@ -681,32 +681,36 @@
       var currentruletype = 'object'
 
       for(var name in spec){
-        var rule = spec[name]
-        if ('default$' == name){
-          var defaultrule = {}
-          defaultrule.pathnames = path
-          
-          defaultrule.pathtypes = pathtypes.splice(1,pathtypes.length)
-          defaultrule.defaultvalue = rule
-          defaultrules.push(defaultrule)
-        }
-        if ('type$' == name){
-          currentruletype = rule
-        }
-        if( _.isObject(rule) && !_.isArray(rule) ) {
-          innerulenames.push(name)
+        if(spec.hasOwnProperty(name)) {
+          var rule = spec[name]
+          if ('default$' == name){
+            var defaultrule = {}
+            defaultrule.pathnames = path
+
+            defaultrule.pathtypes = pathtypes.splice(1,pathtypes.length)
+            defaultrule.defaultvalue = rule
+            defaultrules.push(defaultrule)
+          }
+          if ('type$' == name){
+            currentruletype = rule
+          }
+          if( _.isObject(rule) && !_.isArray(rule) ) {
+            innerulenames.push(name)
+          }
         }
       }
 
       for (var index in innerulenames){
-        rule = spec[innerulenames[index]]
+        if(innerulenames.hasOwnProperty(index)) {
+          rule = spec[innerulenames[index]]
 
-        var newpath = path.slice()
-        newpath.push(innerulenames[index])
+          var newpath = path.slice()
+          newpath.push(innerulenames[index])
 
-        var newpathtypes = pathtypes.slice()
-        newpathtypes.push(currentruletype)
-        parsedefault(rule, newpath, newpathtypes)
+          var newpathtypes = pathtypes.slice()
+          newpathtypes.push(currentruletype)
+          parsedefault(rule, newpath, newpathtypes)
+        }
       }
     }
 
@@ -822,7 +826,7 @@
           else {
             throw new Error("Parambulator: Unrecognized rule specification: "+rulespec)
           }
-        }   
+        }
 
       })
 
@@ -856,7 +860,7 @@
             if( !ctxt.point ) {
               return execrule(ruleI+1)
             }
-            
+
             ctxt.rule = rule
 
             var specstr = JSON.stringify(rule.spec,killcircles())
@@ -937,7 +941,7 @@
           return formatparents.apply(null,args)
         },
         msgmods:function(msg) {
-          return (pref.msgprefix||'') + msg + (pref.msgsuffix||'') 
+          return (pref.msgprefix||'') + msg + (pref.msgsuffix||'')
         },
         fail:fail,proplist:proplist,execrules:execrules,clone:clone}
 
@@ -968,7 +972,7 @@
 
   // this is where Parambulator validates it's own input
   exp.ownparams = new Parambulator({
-    '**': 
+    '**':
     {
       strings$: ['required$','notempty$','atmostone$','exactlyone$','atleastone$'],
       list$:[
@@ -1007,7 +1011,7 @@
         if( !_.isArray(pn) ) {
           pn = [''+pn]
         }
-        
+
         for( var pI = 0; pI < pn.length; pI++ ) {
           var p   = pn[pI]
           var val = ctxt.point[p]
@@ -1031,7 +1035,7 @@
           }
         }
 
-        cb(null)      
+        cb(null)
       }
     },
     msgs: {
@@ -1057,7 +1061,7 @@
   //module.exports = exp
 
 
-  
+
   root.parambulator = exp
 
   exp.noConflict = function() {
@@ -1071,10 +1075,9 @@
       exports = module.exports = exp
     }
     exports.parambulator = exp
-  } 
+  }
   else {
     root.parambulator = exp
   }
 
 }).call(this);
-
