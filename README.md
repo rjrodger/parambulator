@@ -7,9 +7,9 @@ This module is used by the <a href="http://senecajs.org">Seneca framework</a> fo
 
 If you're using this module, feel free to contact me on twitter if you have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
 
-Current Version: 0.1.9
+Current Version: 1.2.1
 
-Tested on: Node 0.10.28, Chrome 34
+Tested on: Node 0.10.31, Chrome 37
 
 
 Use this module to validate input or configuration parameters provided
@@ -660,5 +660,24 @@ The other pseudo-rule that may come in handy is the `list$` rule. This lets you 
 ```
 
 Take a look at the definition of `ownparams` in [parambulator.js](https://github.com/rjrodger/parambulator/blob/master/parambulator.js) to see how _parambulator_ validates its own input.
+
+
+
+
+## Testing
+
+Tests run on the command line, in a headless browser, and in a normal browser:
+
+```sh
+$ npm build
+$ npm test
+$ npm run browser
+$ open test/jasmine.html
+```
+
+## Releases
+
+Release numbers are strict [semver](http://semver.org/) as 1.x.x. All
+releases are tagged in github with release version.
 
 
