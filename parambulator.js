@@ -583,15 +583,15 @@
     }
 
     var err = new Error( msg )
-    err.parambulator = {
-      code:code,
-      property:ctxt.prop,
-      value:ctxt.point,
-      expected:ctxt.rule.spec,
 
-      parents:ctxt.parents,
-      point:ctxt.point,
-      rule:ctxt.rule}
+    err.parambulator = {
+      code:     code,
+      property: ctxt.prop,
+      value:    ctxt.point,
+      expected: (ctxt.rule ? ctxt.rule.spec : void 0),
+      parents:  ctxt.parents,
+      point:    ctxt.point,
+      rule:     ctxt.rule}
 
     return cb(err)
   }

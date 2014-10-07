@@ -59,6 +59,13 @@ describe('parambulator', function() {
   })
 
 
+  it('no_input', function() {
+    pb.validate(void 0,function(err){
+      assert.equal('no_input$',err.parambulator.code)
+    })
+  })
+
+
   it('required$', function() {
     pb.validate({a:1,z:1,red:1,foo:1,bar:1},function(err,res){
       assert.isNull(err)
