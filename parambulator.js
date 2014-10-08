@@ -49,7 +49,7 @@
       var pn = ctxt.util.proplist(ctxt)
 
       var found = 0
-      pn.forEach(function(p){
+      _(pn).forEach(function(p){
         found += ctxt.point[p]?1:0
       })
 
@@ -120,7 +120,7 @@
     }
 
     var all = []
-    pn.forEach(function(n){
+    _(pn).forEach(function(n){
 
       if( n.match( /[*?]/ ) ) {
         all = all.concat( _.keys(gex(n).on(ctxt.point)) )
@@ -282,7 +282,7 @@
       }
 
       var found = 0;
-      pn.forEach(
+      _(pn).forEach(
         function(p){
           var check = checkmap[p.toLowerCase()]
           if( check ) {
@@ -310,7 +310,7 @@
       }
 
       var found = 0;
-      pn.forEach(
+      _(pn).forEach(
         function(p){
           var check = checkmap[p.toLowerCase()]
           if( check ) {
@@ -345,7 +345,7 @@
 
       var iserror = 0
       if( avalue ) {
-        avalue.forEach(
+        _(avalue).forEach(
           function(p){
             iserror += (-1 == okvals.indexOf(p) )
           }
@@ -738,7 +738,7 @@
     function parse(spec) {
       var rules = []
       var names = proporder(spec)
-      names.forEach(function(name){
+      _(names).forEach(function(name){
         var rulespec = spec[name]
 
 
