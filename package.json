@@ -38,7 +38,7 @@
     "uglify-js": "~2.4.13"
   },
   "scripts": {
-    "test": "./node_modules/.bin/jasmine-node ./test/parambulator.spec.js",
+    "test": "./node_modules/.bin/jasmine-node ./test/*.spec.js",
     "browser": "./node_modules/.bin/phantomjs test/run-jasmine.js test/jasmine.html",
     "build": "./node_modules/.bin/uglifyjs parambulator.js -c \"evaluate=false\" -m --source-map parambulator-min.map -o parambulator-min.js",
     "prepublish": "npm run-script build && npm test && npm run-script browser"

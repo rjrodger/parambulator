@@ -842,8 +842,10 @@
       var callback = pref.callbackmaker ? pref.callbackmaker(cb) : (cb||function(){})
       var wrapcb = function(err){
         reterr=err
-        callback.apply(null,arrayify(arguments))
+        // console.log('VALIDATE', JSON.stringify(arguments), arrayify(arguments))
+        callback.apply(null,arguments)
       }
+      var errors = []
 
 
       function execrules(ctxt,cb) {
@@ -869,8 +871,16 @@
 
             rule.func(ctxt, function(err) {
               if( err ) {
-                ctxt.log.push('rule:'+rule.name+':fail:'+specstr)
-                return cb(err,{log:ctxt.log})
+                // console.log('new err', JSON.stringify(err))
+                if(_.isArray(err)) {
+                  // huh !?
+                  // errors = errors.concat(err)
+                } else {
+                  errors.push(err)
+                  ctxt.log.push('rule:'+rule.name+':fail:'+specstr)
+                  // return cb(err,{log:ctxt.log})
+                }
+                execrule(ruleI+1)
               }
               else {
                 ctxt.log.push('rule:'+rule.name+':pass:'+specstr)
@@ -879,7 +889,13 @@
             })
           }
           else {
-            cb(null,{log:ctxt.log})
+            if(errors.length > 0 && pref.multiErrors) {
+              cb(errors,{log:ctxt.log})
+            } else {
+              var err = errors.length > 0 ? errors[0] : null;
+              cb(err,{log:ctxt.log})
+            }
+
           }
         }
 
@@ -1049,8 +1065,9 @@
   exp.ownprefs = new Parambulator({
     object$:['valid','rules','msgs'],
     string$:['topname','msgprefix','msgsuffix'],
+    boolean$:['multiErrors'],
     function$:['callbackmaker'],
-    only$:['valid','rules','msgs', 'topname','msgprefix','msgsuffix', 'callbackmaker']
+    only$:['valid','rules','msgs', 'topname','msgprefix','msgsuffix', 'multiErrors', 'callbackmaker']
   },{
     topname:'prefs'
   })
