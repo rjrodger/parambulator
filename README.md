@@ -662,7 +662,20 @@ The other pseudo-rule that may come in handy is the `list$` rule. This lets you 
 Take a look at the definition of `ownparams` in [parambulator.js](https://github.com/rjrodger/parambulator/blob/master/parambulator.js) to see how _parambulator_ validates its own input.
 
 
+## Multiple validation errors
 
+When configuring a parambulator instance, it is possible to pass an option so 
+that parambulator runs all the validation rules and return multiple errors:
+
+```javascript
+var pm = parambulator({...},{
+  multiErrors: true
+})
+```
+
+pm.validate({foo: 'bar}, function(errors) {
+  // errors is null or errors.length > 0 
+})
 
 ## Testing
 
