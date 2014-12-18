@@ -761,8 +761,15 @@
 
         // it's a rule - name$ syntax
         else if( name.match(/\$$/) ) {
-          var rule = buildrule(name,rulespec,spec)
-          rules.push(rule)
+          if(name === 'required$' && pref.multiErrors && _.isArray(rulespec)) {
+            _.each(rulespec, function(item) {
+              var rule = buildrule(name,[item],spec)
+              rules.push(rule)
+            })
+          } else {
+            var rule = buildrule(name,rulespec,spec)
+            rules.push(rule)
+          }
         }
 
 
@@ -871,14 +878,12 @@
 
             rule.func(ctxt, function(err) {
               if( err ) {
-                // console.log('new err', JSON.stringify(err))
                 if(_.isArray(err)) {
                   // huh !?
                   // errors = errors.concat(err)
                 } else {
                   errors.push(err)
                   ctxt.log.push('rule:'+rule.name+':fail:'+specstr)
-                  // return cb(err,{log:ctxt.log})
                 }
                 execrule(ruleI+1)
               }

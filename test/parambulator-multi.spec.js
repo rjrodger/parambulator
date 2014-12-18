@@ -261,5 +261,56 @@ describe('parambulator-multi', function() {
 		})
 	})
 
+	var pb_multi_require = parambulator({
+		required$:['a', 'b'],
+		c: 'required$'
+	}, {
+		multiErrors: true
+	})
+
+	it('required all missing', function(done) {
+		var props = ['a', 'b', 'c']
+		var ent = {}
+		pb_multi_require.validate(ent,function(err,res) {
+			assert.isNotNull(err)
+			assert.equal(err.length, 3)
+			var i = 0
+			_.each(props, function(prop) {
+				assert.equal(err[i].parambulator.property, prop)
+				assert.equal(err[i].parambulator.code, 'required$')
+				i++
+			})
+			done()
+		})
+	})
+
+	it('required partially missing', function(done) {
+		var props = ['b', 'c']
+		var ent = {a: 1}
+		pb_multi_require.validate(ent,function(err,res) {
+			assert.isNotNull(err)
+			assert.equal(err.length, 2)
+			var i = 0
+			_.each(props, function(prop) {
+				assert.equal(err[i].parambulator.property, prop)
+				assert.equal(err[i].parambulator.code, 'required$')
+				i++
+			})
+			done()
+		})
+	})
+
+	it('required partially missing', function(done) {
+		var props = ['a', 'b', 'c']
+		var ent = {a: 1, b: 2}
+		pb_multi_require.validate(ent,function(err, res) {
+			assert.isNotNull(err)
+			assert.equal(err.length, 1)
+			assert.equal(err[0].parambulator.property, 'c')
+			assert.equal(err[0].parambulator.code, 'required$')
+			done()
+		})
+	})
+
 
 })
