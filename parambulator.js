@@ -761,7 +761,7 @@
 
         // it's a rule - name$ syntax
         else if( name.match(/\$$/) ) {
-          if(name === 'required$' && pref.multiErrors && _.isArray(rulespec)) {
+          if((name === 'required$' || name === 'notempty$') && pref.multiErrors && _.isArray(rulespec)) {
             _.each(rulespec, function(item) {
               var rule = buildrule(name,[item],spec)
               rules.push(rule)
