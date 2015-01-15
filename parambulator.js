@@ -49,7 +49,7 @@
       var pn = ctxt.util.proplist(ctxt)
 
       var found = 0
-      pn.forEach(function(p){
+      _.each(pn, function(p){
         found += ctxt.point[p]?1:0
       })
 
@@ -120,7 +120,7 @@
     }
 
     var all = []
-    pn.forEach(function(n){
+    _.each(pn, function(n){
 
       if( n.match( /[*?]/ ) ) {
         all = all.concat( _.keys(gex(n).on(ctxt.point)) )
@@ -282,14 +282,12 @@
       }
 
       var found = 0;
-      pn.forEach(
-        function(p){
-          var check = checkmap[p.toLowerCase()]
-          if( check ) {
-            found += check(ctxt.point)
-          }
+      _.each(pn, function(p){
+        var check = checkmap[p.toLowerCase()]
+        if( check ) {
+          found += check(ctxt.point)
         }
-      )
+      })
 
       if( !found ) {
         return ctxt.util.fail(ctxt,cb)
@@ -310,14 +308,12 @@
       }
 
       var found = 0;
-      pn.forEach(
-        function(p){
-          var check = checkmap[p.toLowerCase()]
-          if( check ) {
-            found += check(ctxt.point)
-          }
+      _.each(pn, function(p){
+        var check = checkmap[p.toLowerCase()]
+        if( check ) {
+          found += check(ctxt.point)
         }
-      )
+      })
 
       if( !found ) {
         return ctxt.util.fail(ctxt,cb)
@@ -345,11 +341,9 @@
 
       var iserror = 0
       if( avalue ) {
-        avalue.forEach(
-          function(p){
-            iserror += (-1 == okvals.indexOf(p) )
-          }
-        )
+        _.each(avalue, function(p){
+          iserror += (-1 == okvals.indexOf(p) )
+        })
       }
       if ( iserror ){
         return ctxt.util.fail(ctxt,cb)
@@ -592,7 +586,6 @@
       parents:  ctxt.parents,
       point:    ctxt.point,
       rule:     ctxt.rule}
-
     return cb(err)
   }
 
@@ -738,7 +731,7 @@
     function parse(spec) {
       var rules = []
       var names = proporder(spec)
-      names.forEach(function(name){
+      _.each(names, function(name){
         var rulespec = spec[name]
 
 
