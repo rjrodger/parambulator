@@ -1,4 +1,4 @@
-/* Copyright (c) 2012-2014 Richard Rodger, MIT License */
+/* Copyright (c) 2012-2015 Richard Rodger, MIT License */
 
 (function() {
   "use strict";
@@ -16,8 +16,10 @@
 
   if( typeof _ === 'undefined' ) {
     if( has_require ) {
-      _ = require('underscore')
+      _ = require('lodash')
     }
+
+    // assume in web context, so still underscore, not lodash
     else throw new Error('parambulator requires underscore, see http://underscorejs.org');
   }
 

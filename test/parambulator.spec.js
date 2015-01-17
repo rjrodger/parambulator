@@ -1,4 +1,4 @@
-/* Copyright (c) 2014 Richard Rodger, MIT License */
+/* Copyright (c) 2014-2015 Richard Rodger, MIT License */
 "use strict";
 
 
@@ -8,7 +8,7 @@ if( 'undefined' === typeof parambulator ) {
 
 
 if( 'undefined' === typeof _ ) {
-  var _ = require('underscore')
+  var _ = require('lodash')
 }
 
 

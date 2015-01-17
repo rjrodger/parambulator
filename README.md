@@ -7,9 +7,9 @@ This module is used by the <a href="http://senecajs.org">Seneca framework</a> fo
 
 If you're using this module, feel free to contact me on twitter if you have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
 
-Current Version: 1.2.1
+Current Version: 1.4.0
 
-Tested on: Node 0.10.31, Chrome 37
+Tested on: Node 0.10.35, Chrome 39
 
 
 Use this module to validate input or configuration parameters provided
@@ -692,5 +692,4 @@ $ open test/jasmine.html
 
 Release numbers are strict [semver](http://semver.org/) as 1.x.x. All
 releases are tagged in github with release version.
-
 
