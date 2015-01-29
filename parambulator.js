@@ -1,4 +1,5 @@
 /* Copyright (c) 2012-2015 Richard Rodger, MIT License */
+/* jshint node:true, asi:true, eqnull:true */
 
 (function() {
   "use strict";
@@ -100,7 +101,7 @@
         }
       }
 
-      if( 0 == pn.length ) {
+      if( 0 === pn.length ) {
         if( !noneok() ) {
           // TODO needs a separate msg code
           ctxt.prop = JSON.stringify(ctxt.rule.spec,killcircles())
@@ -164,7 +165,7 @@
 
     notempty$: childrule(
       function(ctxt,p,v){
-        return !_.isUndefined(v) && !_.isNull(v) && ''!=v
+        return !_.isUndefined(v) && !_.isNull(v) && '' !== v
       },
       truefn,
       'notempty$'
@@ -599,7 +600,7 @@
     var pn = []
     for( var p in obj ) {
       var pc = p
-      if( 0 == p.indexOf('__') ) {
+      if( 0 === p.indexOf('__') ) {
         pc = p.substring(2)
         obj[pc] = obj[p]
         delete obj[p]
@@ -697,14 +698,14 @@
 
       for (var index in innerulenames){
         if(innerulenames.hasOwnProperty(index)) {
-          rule = spec[innerulenames[index]]
+          var inner_rule = spec[innerulenames[index]]
 
           var newpath = path.slice()
           newpath.push(innerulenames[index])
 
           var newpathtypes = pathtypes.slice()
           newpathtypes.push(currentruletype)
-          parsedefault(rule, newpath, newpathtypes)
+          parsedefault(inner_rule, newpath, newpathtypes)
         }
       }
     }
@@ -756,22 +757,27 @@
 
         // it's a rule - name$ syntax
         else if( name.match(/\$$/) ) {
-          if((name === 'required$' || name === 'notempty$') && pref.multiErrors && _.isArray(rulespec)) {
+          if((name === 'required$' || name === 'notempty$') && 
+             pref.multiErrors && 
+             _.isArray(rulespec)) 
+          {
             _.each(rulespec, function(item) {
-              var rule = buildrule(name,[item],spec)
-              rules.push(rule)
+              var item_rule = buildrule(name,[item],spec)
+              rules.push(item_rule)
             })
-          } else {
-            var rule = buildrule(name,rulespec,spec)
-            rules.push(rule)
+          } 
+          else {
+            var build_rule = buildrule(name,rulespec,spec)
+            rules.push(build_rule)
           }
         }
 
 
         else if( '**' == name ) {
-          var subrules = parse( rulespec )
-          var rule = buildrule('recurse$',{prop:name,rules:subrules})
-          rules.push(rule)
+          var starstar_subrules = parse( rulespec )
+          var starstar_rule = 
+                buildrule('recurse$',{prop:name,rules:starstar_subrules})
+          rules.push(starstar_rule)
         }
 
 
@@ -787,9 +793,9 @@
               }
             })
 
-            var subrules = parse( rulespec )
-            var rule = buildrule('iterate$',{prop:name,rules:subrules})
-            rules.push(rule)
+            var prop_subrules = parse( rulespec )
+            var prop_rule = buildrule('iterate$',{prop:name,rules:prop_subrules})
+            rules.push(prop_rule)
           }
 
 

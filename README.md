@@ -5,12 +5,23 @@ A simple way to generate nice error messages for named parameters.
 
 This module is used by the <a href="http://senecajs.org">Seneca framework</a> for input validation.
 
-If you're using this module, feel free to contact me on twitter if you have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
+This module works on both Node.js and browsers.
 
-Current Version: 1.4.0
+If you're using this module, feel free to contact me on twitter if you
+have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
 
-Tested on: Node 0.10.35, Chrome 39
+[![Gitter chat](https://badges.gitter.im/rjrodger/parambulator.png)](https://gitter.im/rjrodger/parambulator)
 
+Current Version: 1.5.0
+
+Tested on: Node 0.10.36, Chrome 40
+
+[![Build Status](https://travis-ci.org/rjrodger/parambulator.png?branch=master)](https://travis-ci.org/rjrodger/parambulator)
+
+[Annotated Source](http://rjrodger.github.io/parambulator/doc/parambulator.html)
+
+
+# Usage
 
 Use this module to validate input or configuration parameters provided
 as JSON. You can ensure that the JSON structure and data types are
