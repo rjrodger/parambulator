@@ -40,7 +40,6 @@
   },
   "scripts": {
     "test": "./test.sh",
-    "build": "./build.sh",
-    "prepublish": "npm run-script build && npm test"
+    "build": "./build.sh"
   }
 }
