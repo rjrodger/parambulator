@@ -1088,7 +1088,7 @@
   root.parambulator = exp
 
   exp.noConflict = function() {
-    root.previous_parambulator = previous_parambulator;
+    root.parambulator = previous_parambulator;
     return self;
   }
 
