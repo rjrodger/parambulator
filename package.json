@@ -20,9 +20,9 @@
     "url": "https://github.com/rjrodger/parambulator.git"
   },
   "dependencies": {
-    "gex": "~0.2.0",
-    "jsonic": "~0.1.2",
-    "lodash": "^2.4.1"
+    "gex": "0.2.0",
+    "jsonic": "0.2.0",
+    "lodash": "2.4.2"
   },
   "files": [
     "package.json",
@@ -31,12 +31,12 @@
     "parambulator.js"
   ],
   "devDependencies": {
-    "docco": "^0.6.3",
-    "jasmine-node": "~1.14.5",
-    "jshint": "^2.6.0",
+    "docco": "0.7.0",
+    "jasmine-node": "1.14.5",
+    "jshint": "2.8.0",
     "mocha": "~2.1.0",
-    "phantomjs": "^1.9.15",
-    "uglify-js": "~2.4.16"
+    "phantomjs": "1.8.2-3",
+    "uglify-js": "2.4.23"
   },
   "scripts": {
     "test": "./test.sh",
