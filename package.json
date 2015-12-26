@@ -19,6 +19,7 @@
   "repository": {
     "url": "https://github.com/rjrodger/parambulator.git"
   },
+  "license": "MIT",
   "scripts": {
     "test": "lab",
     "coverage": "lab -s -r lcov | coveralls",
