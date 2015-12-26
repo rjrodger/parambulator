@@ -1,8 +1,11 @@
 /* Copyright (c) 2010-2013 Richard Rodger */
 
-"use strict";
+'use strict';
 
-
+var Lab = require('lab')
+var lab = exports.lab = Lab.script()
+var describe = lab.describe
+var it = lab.it
 var assert = require('chai').assert
 var gex    = require('gex')
 
@@ -13,7 +16,7 @@ var parambulator = require('..')
 describe('array', function() {
 
   var pb = parambulator({
-    
+
     atmostone$: 'a*',
 
     '*': {
@@ -37,7 +40,7 @@ describe('array', function() {
   //console.log(''+pb)
 
 
-  it('a*', function() {
+  it('a*', function(done) {
     pb.validate({z:1,},function(err,res){
       assert.isNull(err)
     })
@@ -56,10 +59,11 @@ describe('array', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'atmostone$')
     })
+      done()
   })
 
 
-  it('star', function() {
+  it('star', function(done) {
     pb.validate({z:1,x:{a:1},y:{a:2}},function(err,res){
       assert.isNull(err)
     })
@@ -83,11 +87,12 @@ describe('array', function() {
       assert.equal(err.parambulator.code,'type$')
     })
 
+      done()
   })
 
 
 
-  it('**', function() {
+  it('**', function(done) {
 
     pb.validate({z:1,b:1,x:{a:1,b:1,y:{b:1}}},function(err,res){
       assert.isNull(err)
@@ -111,10 +116,11 @@ describe('array', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('z*', function() {
+  it('z*', function(done) {
     pb.validate({z:1},function(err,res){
       assert.isNull(err)
     })
@@ -129,7 +135,6 @@ describe('array', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'required$')
     })
+      done()
   })
-
 })
-

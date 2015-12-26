@@ -1,7 +1,11 @@
 /* Copyright (c) 2010-2013 Richard Rodger */
 
-"use strict";
+'use strict';
 
+var Lab = require('lab')
+var lab = exports.lab = Lab.script()
+var describe = lab.describe
+var it = lab.it
 var assert = require('chai').assert
 var gex    = require('gex')
 
@@ -13,7 +17,7 @@ describe('format', function() {
 
   var pb
 
-  it('happy', function() {
+  it('happy', function(done) {
     pb = parambulator({
       a: {format$:'datetime'},
       b: {format$:'date'},
@@ -22,9 +26,10 @@ describe('format', function() {
       e: {format$:'re'},
       f: {format$:['date', 'time']},
     })
+      done()
   })
 
-  it('datetime', function() {
+  it('datetime', function(done) {
     pb.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -37,9 +42,10 @@ describe('format', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'format$')
     })
+      done()
   })
 
-  it('date', function() {
+  it('date', function(done) {
     pb.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -52,9 +58,10 @@ describe('format', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'format$')
     })
+      done()
   })
 
-  it('time', function() {
+  it('time', function(done) {
     pb.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -67,9 +74,10 @@ describe('format', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'format$')
     })
+      done()
   })
 
-  it('utcmillisec', function() {
+  it('utcmillisec', function(done) {
     pb.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -82,9 +90,10 @@ describe('format', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'format$')
     })
+      done()
   })
-  
-  it('re', function() {
+
+  it('re', function(done) {
     pb.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -97,10 +106,11 @@ describe('format', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'format$')
     })
+      done()
   })
-  
 
-  it('date-time', function() {
+
+  it('date-time', function(done) {
     pb.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -142,6 +152,6 @@ describe('format', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'format$')
     })
+      done()
   })
 })
-

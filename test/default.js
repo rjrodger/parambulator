@@ -1,8 +1,11 @@
 /* Copyright (c) 2010-2013 Richard Rodger */
 
-"use strict";
+'use strict';
 
-
+var Lab = require('lab')
+var lab = exports.lab = Lab.script()
+var describe = lab.describe
+var it = lab.it
 var assert = require('chai').assert
 var gex    = require('gex')
 var _      = require('underscore')
@@ -15,13 +18,13 @@ describe('default', function() {
 
   var pb
 
-  it('happy', function() {
+  it('happy', function(done) {
     pb = parambulator({
       a: {default$:123, type$:'number'},
       b: {
-        firstobj: {default$:23, type$:'number'}, 
+        firstobj: {default$:23, type$:'number'},
         secondobj: {innerobj: {default$:'test'}},
-        thirdobj: {type$:'array', __0: {default$:123}},  
+        thirdobj: {type$:'array', __0: {default$:123}},
       },
       c: {default$:555, type$:'number'},
       d: {type$: 'array', __0: {default$:'arraytest0'}, __1: {default$:'arraytest1'}},
@@ -30,10 +33,11 @@ describe('default', function() {
       // TODO: handle this case
       //f: {default$:'aa', type$:'number'}
     })
+      done()
   })
 
 
-  it('firsttest', function() {
+  it('firsttest', function(done) {
     var obj = {c: 2222}
     pb.validate(obj)
 
@@ -59,22 +63,22 @@ describe('default', function() {
     assert.isTrue(_.isArray(obj['d']))
     assert.equal('arraytest0', obj['d'][0])
     assert.equal('arraytest1', obj['d'][1])
-    
+
     assert.isTrue(_.has(obj, 'e'))
     assert.isTrue(_.isArray(obj['e']))
     assert.equal(0, obj['e'].length)
+      done()
   })
 
 
-  it('nice', function() {
+  it('nice', function(done) {
     parambulator({
       c: {default$:555, type$:'number'},
       d: {type$: 'number', __0: {default$:'arraytest0'}, __1: {default$:'arraytest1'}},
     })
+      done()
   })
 
 
 
 })
-
-

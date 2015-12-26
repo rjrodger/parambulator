@@ -31,15 +31,17 @@
     "parambulator.js"
   ],
   "devDependencies": {
+    "chai": "^3.4.1",
     "docco": "0.7.0",
     "jasmine-node": "1.14.5",
     "jshint": "2.8.0",
+    "lab": "^6.2.0",
     "mocha": "~2.1.0",
     "phantomjs": "1.8.2-3",
     "uglify-js": "2.4.23"
   },
   "scripts": {
-    "test": "./test.sh",
+    "test": "lab",
     "build": "./build.sh"
   }
 }

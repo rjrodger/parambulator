@@ -1,8 +1,11 @@
 /* Copyright (c) 2010-2013 Richard Rodger */
 
-"use strict";
+'use strict';
 
-
+var Lab = require('lab')
+var lab = exports.lab = Lab.script()
+var describe = lab.describe
+var it = lab.it
 var assert = require('chai').assert
 var gex    = require('gex')
 
@@ -13,7 +16,7 @@ describe('circle', function() {
 
   var pb
 
-  it('circle', function() {
+  it('circle', function(done) {
     pb = parambulator({
       string$: ['foo']
     },  {msgs: {
@@ -26,6 +29,7 @@ describe('circle', function() {
 
     var res = pb.validate(a)
     assert.equal('circle: {"foo":"[CIRCULAR-REFERENCE]"}',res.message)
+    done()
   }) 
 
 })

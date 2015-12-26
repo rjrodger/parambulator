@@ -3,6 +3,10 @@
 "use strict";
 
 
+var Lab = require('lab');
+var lab = exports.lab = Lab.script();
+var describe = lab.describe;
+var it = lab.it;
 var assert = require('chai').assert
 var gex    = require('gex')
 
@@ -15,7 +19,7 @@ describe('basic', function() {
 
 
 
-  it('happy', function() {
+  it('happy', function(done) {
     pb = parambulator({
       atmostone$: ['path','from'],
 
@@ -37,11 +41,12 @@ describe('basic', function() {
     })
 
 
-  }) 
+      done()
+  })
 
 
 
-  it('required$', function() {
+  it('required$', function(done) {
     pb.validate({a:1,z:1,red:1,foo:1,bar:1},function(err,res){
       assert.isNull(err)
     })
@@ -50,7 +55,7 @@ describe('basic', function() {
       assert.isNotNull(err)
       assert.equal('required$',err.parambulator.code)
     })
-    
+
     pb.validate({a:1,z:1,red:1,bar:1},function(err,res){
       assert.isNotNull(err)
       assert.equal('required$',err.parambulator.code)
@@ -61,10 +66,11 @@ describe('basic', function() {
       assert.isNotNull(err)
       assert.equal('required$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('exactlyone$', function() {
+  it('exactlyone$', function(done) {
     pb.validate({a:1,z:1,red:1, foo:1,bar:1},function(err,res){
       assert.isNull(err)
     })
@@ -72,21 +78,22 @@ describe('basic', function() {
     pb.validate({a:1,z:1,blue:1, foo:1,bar:1},function(err,res){
       assert.isNull(err)
     })
-    
+
     pb.validate({a:1,z:1,foo:1,bar:1},function(err,res){
       //console.log(err)
       assert.isNotNull(err)
       assert.equal('exactlyone$',err.parambulator.code)
     })
-    
+
     pb.validate({a:1,z:1,red:1,blue:1, foo:1,bar:1},function(err,res){
       assert.isNotNull(err)
       assert.equal('exactlyone$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('atmostone$', function() {
+  it('atmostone$', function(done) {
     pb.validate({a:1,z:1,red:1,foo:1,bar:1, from:1},function(err,res){
       assert.isNull(err)
     })
@@ -100,10 +107,11 @@ describe('basic', function() {
       assert.isNotNull(err)
       assert.equal('atmostone$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('atleastone$', function() {
+  it('atleastone$', function(done) {
     pb.validate({z:1, red:1,foo:1,bar:1,from:1, a:1},function(err,res){
       assert.isNull(err)
     })
@@ -121,10 +129,11 @@ describe('basic', function() {
       assert.isNotNull(err)
       assert.equal('atleastone$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('search', function() {
+  it('search', function(done) {
     pb.validate({a:1,z:1,red:1,foo:1,bar:1, search:{find:1,replace:1}},function(err,res){
       assert.isNull(err)
     })
@@ -138,11 +147,12 @@ describe('basic', function() {
       assert.isNotNull(err)
       assert.equal('required$',err.parambulator.code)
     })
+      done()
   })
 
 
 
-  it('sublevels', function() {
+  it('sublevels', function(done) {
     pb.validate({a:1,z:1,red:1,foo:1,bar:1, sub:{dub:{x:1}}},function(err,res){
       assert.isNull(err)
     })
@@ -169,10 +179,11 @@ describe('basic', function() {
       assert.isNotNull(err)
       assert.equal('exactlyone$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('notempty$', function() {
+  it('notempty$', function(done) {
     pb.validate({a:1,z:'',red:1,foo:1,bar:1},function(err,res){
       //console.log(err)
       assert.isNotNull(err)
@@ -188,10 +199,11 @@ describe('basic', function() {
       assert.isNotNull(err)
       assert.equal('notempty$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('pbeasy', function() {
+  it('pbeasy', function(done) {
     var pbeasy_one = parambulator({one:{string$:true,required$:true}})
 
     pbeasy_one.validate({one:'a'},function(err,res){
@@ -229,8 +241,7 @@ describe('basic', function() {
     })
 
 
+      done()
   })
 
 })
-
-

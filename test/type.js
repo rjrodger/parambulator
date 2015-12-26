@@ -1,8 +1,11 @@
 /* Copyright (c) 2010-2013 Richard Rodger */
 
-"use strict";
+'use strict';
 
-
+var Lab = require('lab')
+var lab = exports.lab = Lab.script()
+var describe = lab.describe
+var it = lab.it
 var assert = require('chai').assert
 var gex    = require('gex')
 
@@ -25,7 +28,7 @@ describe('type', function() {
   })
 
 
-  it('multi-types-1', function() {
+  it('multi-types-1', function(done) {
     pb.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -61,9 +64,10 @@ describe('type', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
-  it('multi-types-2', function() {
+  it('multi-types-2', function(done) {
     pb.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -101,11 +105,12 @@ describe('type', function() {
     pb.validate({i:{a:1}},function(err,res){
       assert.isNull(err)
     })
+      done()
   })
 
 
 
-  it('string', function() {
+  it('string', function(done) {
     pb.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -118,11 +123,12 @@ describe('type', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
 
-  it('number', function() {
+  it('number', function(done) {
     pb.validate({b:1.1},function(err,res){
       assert.isNull(err)
     })
@@ -131,10 +137,11 @@ describe('type', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('integer', function() {
+  it('integer', function(done) {
     pb.validate({c:1},function(err,res){
       assert.isNull(err)
     })
@@ -143,10 +150,11 @@ describe('type', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('boolean', function() {
+  it('boolean', function(done) {
     pb.validate({d:true},function(err,res){
       assert.isNull(err)
     })
@@ -159,10 +167,11 @@ describe('type', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('date', function() {
+  it('date', function(done) {
     pb.validate({e:new Date()},function(err,res){
       assert.isNull(err)
     })
@@ -171,15 +180,16 @@ describe('type', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
-    
+
     pb.validate({e:{a:1}},function(err,res){
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('array', function() {
+  it('array', function(done) {
     pb.validate({f:[]},function(err,res){
       assert.isNull(err)
     })
@@ -197,10 +207,11 @@ describe('type', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('object', function() {
+  it('object', function(done) {
     pb.validate({g:null},function(err,res){
       assert.isNull(err)
     })
@@ -222,5 +233,6 @@ describe('type', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 })

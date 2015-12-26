@@ -1,8 +1,11 @@
 /* Copyright (c) 2010-2013 Richard Rodger */
 
-"use strict";
+'use strict';
 
-
+var Lab = require('lab')
+var lab = exports.lab = Lab.script()
+var describe = lab.describe
+var it = lab.it
 var assert = require('chai').assert
 var gex    = require('gex')
 var _      = require('underscore')
@@ -17,7 +20,7 @@ describe('ownparams', function() {
 
 
 
-  it('strings$', function() {
+  it('strings$', function(done) {
 
     for( var r in {required$:1,notempty$:1,atmostone$:1,exactlyone$:1,atleastone$:1} ) {
       var args = {}
@@ -59,10 +62,11 @@ describe('ownparams', function() {
       })
     }
 
+      done()
   })
 
 
-  it('wild$', function() {
+  it('wild$', function(done) {
     pb.validate({a:{wild$:'b*'}},function(err,res){
       assert.isNull(err)
     })
@@ -73,10 +77,11 @@ describe('ownparams', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('type$', function() {
+  it('type$', function(done) {
     pb.validate({a:{type$:'string'}},function(err,res){
       assert.isNull(err)
     })
@@ -87,10 +92,11 @@ describe('ownparams', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('re$', function() {
+  it('re$', function(done) {
     pb.validate({a:{re$:'/b/'}},function(err,res){
       assert.isNull(err)
     })
@@ -101,10 +107,11 @@ describe('ownparams', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('enum$', function() {
+  it('enum$', function(done) {
     pb.validate({a:{enum$:[11,22]}},function(err,res){
       assert.isNull(err)
     })
@@ -115,7 +122,6 @@ describe('ownparams', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 })
-
-

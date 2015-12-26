@@ -1,8 +1,11 @@
 /* Copyright (c) 2010-2013 Richard Rodger */
 
-"use strict";
+'use strict';
 
-
+var Lab = require('lab')
+var lab = exports.lab = Lab.script()
+var describe = lab.describe
+var it = lab.it
 var assert = require('chai').assert
 var gex    = require('gex')
 
@@ -14,7 +17,7 @@ describe('custom', function() {
 
   var pb
 
-  it('happy', function() {
+  it('happy', function(done) {
     pb = parambulator({
       required$: 'req',
       equalsbar$: 'foo',
@@ -40,10 +43,11 @@ describe('custom', function() {
         }
       }
     })
+      done()
   })
 
 
-  it('equalsbar', function() {
+  it('equalsbar', function(done) {
     pb.validate({req:1,a:1,foo:'bar'},function(err,res){
       assert.isNull(err)
     })
@@ -68,6 +72,6 @@ describe('custom', function() {
       assert.equal(err.parambulator.code,'exactlyone$')
       assert.equal(err.message,'my custom error msg for a,b at location top level')
     })
+      done()
   })
 })
-

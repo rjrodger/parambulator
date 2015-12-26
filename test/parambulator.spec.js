@@ -1,39 +1,21 @@
 /* Copyright (c) 2014-2015 Richard Rodger, MIT License */
 "use strict";
 
+'use strict';
 
-if( 'undefined' === typeof parambulator ) {
-  var parambulator = require('..')
-}
-
-
-if( 'undefined' === typeof _ ) {
-  var _ = require('lodash')
-}
+var Lab = require('lab')
+var lab = exports.lab = Lab.script()
+var describe = lab.describe
+var it = lab.it
+var parambulator = require('..')
+var _ = require('lodash')
+var assert = require('chai').assert
 
 
 function s(obj){
   return JSON.stringify(obj)
 }
 
-
-var assert = {
-  isNull: function(x){
-    expect(x).toBe(null)
-  },
-  isNotNull: function(x){
-    expect(x).toNotBe(null)
-  },
-  equal: function(x,y){
-    expect(x).toBe(y)
-  },
-  isTrue: function(x){
-    expect(!!x).toBe(true)
-  },
-  ok: function(x){
-    expect(!!x).toBe(true)
-  },
-}
 
 
 describe('parambulator', function() {
@@ -44,10 +26,10 @@ describe('parambulator', function() {
     search: {
       required$: ['find','replace']
     },
-    
+
     exactlyone$: ['red','blue'],
     atleastone$: ['a','b'],
-    
+
     sub: {
       dub: {
         exactlyone$: ['x','y','z'],
@@ -59,14 +41,15 @@ describe('parambulator', function() {
   })
 
 
-  it('no_input', function() {
+  it('no_input', function(done) {
     pb.validate(void 0,function(err){
       assert.equal('no_input$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('required$', function() {
+  it('required$', function(done) {
     pb.validate({a:1,z:1,red:1,foo:1,bar:1},function(err,res){
       assert.isNull(err)
     })
@@ -75,7 +58,7 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal('required$',err.parambulator.code)
     })
-    
+
     pb.validate({a:1,z:1,red:1,bar:1},function(err,res){
       assert.isNotNull(err)
       assert.equal('required$',err.parambulator.code)
@@ -86,10 +69,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal('required$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('exactlyone$', function() {
+  it('exactlyone$', function(done) {
     pb.validate({a:1,z:1,red:1, foo:1,bar:1},function(err,res){
       assert.isNull(err)
     })
@@ -97,21 +81,22 @@ describe('parambulator', function() {
     pb.validate({a:1,z:1,blue:1, foo:1,bar:1},function(err,res){
       assert.isNull(err)
     })
-    
+
     pb.validate({a:1,z:1,foo:1,bar:1},function(err,res){
       //console.log(err)
       assert.isNotNull(err)
       assert.equal('exactlyone$',err.parambulator.code)
     })
-    
+
     pb.validate({a:1,z:1,red:1,blue:1, foo:1,bar:1},function(err,res){
       assert.isNotNull(err)
       assert.equal('exactlyone$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('atmostone$', function() {
+  it('atmostone$', function(done) {
     pb.validate({a:1,z:1,red:1,foo:1,bar:1, from:1},function(err,res){
       assert.isNull(err)
     })
@@ -125,10 +110,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal('atmostone$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('atleastone$', function() {
+  it('atleastone$', function(done) {
     pb.validate({z:1, red:1,foo:1,bar:1,from:1, a:1},function(err,res){
       assert.isNull(err)
     })
@@ -146,10 +132,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal('atleastone$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('search', function() {
+  it('search', function(done) {
     pb.validate({a:1,z:1,red:1,foo:1,bar:1, search:{find:1,replace:1}},function(err,res){
       assert.isNull(err)
     })
@@ -163,11 +150,12 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal('required$',err.parambulator.code)
     })
+      done()
   })
 
 
 
-  it('sublevels', function() {
+  it('sublevels', function(done) {
     pb.validate({a:1,z:1,red:1,foo:1,bar:1, sub:{dub:{x:1}}},function(err,res){
       assert.isNull(err)
     })
@@ -194,10 +182,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal('exactlyone$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('notempty$', function() {
+  it('notempty$', function(done) {
     pb.validate({a:1,z:'',red:1,foo:1,bar:1},function(err,res){
       //console.log(err)
       assert.isNotNull(err)
@@ -213,10 +202,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal('notempty$',err.parambulator.code)
     })
+      done()
   })
 
 
-  it('pbeasy', function() {
+  it('pbeasy', function(done) {
     var pbeasy_one = parambulator({one:{string$:true,required$:true}})
 
     pbeasy_one.validate({one:'a'},function(err,res){
@@ -252,6 +242,7 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal('required$',err.parambulator.code)
     })
+      done()
   })
 
 
@@ -260,17 +251,17 @@ describe('parambulator', function() {
   var pb_array = new parambulator({
     z: 'required$',
     foo: {
-        
+
       '__1': {
         bar: 'required$'
       },
-      
+
       '__0': 'required$',
     },
   })
 
 
-  it('array-z', function() {
+  it('array-z', function(done) {
     pb_array.validate({z:1},function(err,res){
       assert.isNull(err)
     })
@@ -279,26 +270,28 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'required$')
     })
+      done()
   })
 
 
-  it('array-index0', function() {
+  it('array-index0', function(done) {
     pb_array.validate({z:1},function(err,res){
       assert.isNull(err)
     })
-    
+
     pb_array.validate({z:1,foo:[10]},function(err,res){
       assert.isNull(err)
     })
-    
+
     pb_array.validate({z:1,foo:[]},function(err,res){
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'required$')
     })
+      done()
   })
 
 
-  it('array-index1', function() {
+  it('array-index1', function(done) {
 
     pb_array.validate({z:1,foo:[10]},function(err,res){
       assert.isNull(err)
@@ -317,24 +310,26 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'required$')
     })
+      done()
   })
 
 
-  
-  it('circle', function() {
+
+  it('circle', function(done) {
     var pb = parambulator({
       string$: ['foo']
     },  {msgs: {
       'string$': 'circle: <%=json(point)%>'
     }})
-                     
+
 
     var a = {}
     a.foo = a
 
     var res = pb.validate(a)
     assert.equal('circle: {"foo":"[CIRCULAR-REFERENCE]"}',res.message)
-  }) 
+      done()
+  })
 
 
 
@@ -364,7 +359,7 @@ describe('parambulator', function() {
     }
   })
 
-  it('custom-equalsbar', function() {
+  it('custom-equalsbar', function(done) {
     pb_custom.validate({req:1,a:1,foo:'bar'},function(err,res){
       assert.isNull(err)
     })
@@ -389,6 +384,7 @@ describe('parambulator', function() {
       assert.equal(err.parambulator.code,'exactlyone$')
       assert.equal(err.message,'my custom error msg for a,b at location top level')
     })
+      done()
   })
 
 
@@ -396,20 +392,20 @@ describe('parambulator', function() {
   var pb_default = parambulator({
     a: {default$:123, type$:'number'},
     b: {
-      firstobj: {default$:23, type$:'number'}, 
+      firstobj: {default$:23, type$:'number'},
       secondobj: {innerobj: {default$:'test'}},
-      thirdobj: {type$:'array', __0: {default$:123}},  
+      thirdobj: {type$:'array', __0: {default$:123}},
     },
     c: {default$:555, type$:'number'},
     d: {type$: 'array', __0: {default$:'arraytest0'}, __1: {default$:'arraytest1'}},
     e: {type$: 'array', default$:[]},
-    
+
     // TODO: handle this case
     //f: {default$:'aa', type$:'number'}
   })
 
 
-  it('default-firsttest', function() {
+  it('default-firsttest', function(done) {
     var obj = {c: 2222}
     pb_default.validate(obj)
 
@@ -435,18 +431,20 @@ describe('parambulator', function() {
     assert.isTrue(_.isArray(obj['d']))
     assert.equal('arraytest0', obj['d'][0])
     assert.equal('arraytest1', obj['d'][1])
-    
+
     assert.isTrue(_.has(obj, 'e'))
     assert.isTrue(_.isArray(obj['e']))
     assert.equal(0, obj['e'].length)
+      done()
   })
 
 
-  it('default-nice', function() {
+  it('default-nice', function(done) {
     parambulator({
       c: {default$:555, type$:'number'},
       d: {type$: 'number', __0: {default$:'arraytest0'}, __1: {default$:'arraytest1'}},
     })
+      done()
   })
 
 
@@ -461,7 +459,7 @@ describe('parambulator', function() {
   })
 
 
-  it('format-datetime', function() {
+  it('format-datetime', function(done) {
     pb_format.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -474,9 +472,10 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'format$')
     })
+      done()
   })
 
-  it('format-date', function() {
+  it('format-date', function(done) {
     pb_format.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -489,9 +488,10 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'format$')
     })
+      done()
   })
 
-  it('format-time', function() {
+  it('format-time', function(done) {
     pb_format.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -504,9 +504,10 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'format$')
     })
+      done()
   })
 
-  it('format-utcmillisec', function() {
+  it('format-utcmillisec', function(done) {
     pb_format.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -519,9 +520,10 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'format$')
     })
+      done()
   })
-  
-  it('format-re', function() {
+
+  it('format-re', function(done) {
     pb_format.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -534,10 +536,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'format$')
     })
+      done()
   })
-  
 
-  it('format-date-time', function() {
+
+  it('format-date-time', function(done) {
     pb_format.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -579,6 +582,7 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'format$')
     })
+      done()
   })
 
 
@@ -586,7 +590,7 @@ describe('parambulator', function() {
   var pb_ownparams = parambulator.ownparams
 
 
-  it('ownparams-strings$', function() {
+  it('ownparams-strings$', function(done) {
 
     for( var r in {required$:1,notempty$:1,atmostone$:1,exactlyone$:1,atleastone$:1} ) {
       var args = {}
@@ -625,10 +629,11 @@ describe('parambulator', function() {
       })
     }
 
+      done()
   })
 
 
-  it('ownparams-wild$', function() {
+  it('ownparams-wild$', function(done) {
     pb_ownparams.validate({a:{wild$:'b*'}},function(err,res){
       assert.isNull(err)
     })
@@ -637,10 +642,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('ownparams-type$', function() {
+  it('ownparams-type$', function(done) {
     pb_ownparams.validate({a:{type$:'string'}},function(err,res){
       assert.isNull(err)
     })
@@ -649,10 +655,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('ownparams-re$', function() {
+  it('ownparams-re$', function(done) {
     pb_ownparams.validate({a:{re$:'/b/'}},function(err,res){
       assert.isNull(err)
     })
@@ -661,10 +668,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('ownparams-enum$', function() {
+  it('ownparams-enum$', function(done) {
     pb_ownparams.validate({a:{enum$:[11,22]}},function(err,res){
       assert.isNull(err)
     })
@@ -673,11 +681,12 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
 
-  it('single', function() {
+  it('single', function(done) {
     var pm, res
 
     pm = parambulator({foo:'required$'})
@@ -688,10 +697,11 @@ describe('parambulator', function() {
     assert.ok( null != res )
     assert.equal('required$',res.parambulator.code)
     assert.ok(res.parambulator.point.bar)
+      done()
   })
 
 
-  it('multiple', function() {
+  it('multiple', function(done) {
     var pm, res
 
     pm = parambulator({foo:'required$,integer$'})
@@ -708,6 +718,7 @@ describe('parambulator', function() {
     //console.log(res)
     assert.equal('integer$',res.parambulator.code)
     assert.ok(res.parambulator.point.foo)
+      done()
   })
 
 
@@ -727,7 +738,7 @@ describe('parambulator', function() {
   })
 
 
-  it('type-multi-types-1', function() {
+  it('type-multi-types-1', function(done) {
     pb_type.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -763,9 +774,10 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
-  it('type-multi-types-2', function() {
+  it('type-multi-types-2', function(done) {
     pb_type.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -803,11 +815,12 @@ describe('parambulator', function() {
     pb_type.validate({i:{a:1}},function(err,res){
       assert.isNull(err)
     })
+      done()
   })
 
 
 
-  it('type-string', function() {
+  it('type-string', function(done) {
     pb_type.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -820,11 +833,12 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
 
-  it('type-number', function() {
+  it('type-number', function(done) {
     pb_type.validate({b:1.1},function(err,res){
       assert.isNull(err)
     })
@@ -833,10 +847,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('type-integer', function() {
+  it('type-integer', function(done) {
     pb_type.validate({c:1},function(err,res){
       assert.isNull(err)
     })
@@ -845,10 +860,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('type-boolean', function() {
+  it('type-boolean', function(done) {
     pb_type.validate({d:true},function(err,res){
       assert.isNull(err)
     })
@@ -861,10 +877,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('type-date', function() {
+  it('type-date', function(done) {
     pb_type.validate({e:new Date()},function(err,res){
       assert.isNull(err)
     })
@@ -873,15 +890,16 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
-    
+
     pb_type.validate({e:{a:1}},function(err,res){
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('type-array', function() {
+  it('type-array', function(done) {
     pb_type.validate({f:[]},function(err,res){
       assert.isNull(err)
     })
@@ -899,10 +917,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('type-object', function() {
+  it('type-object', function(done) {
     pb_type.validate({g:null},function(err,res){
       assert.isNull(err)
     })
@@ -924,6 +943,7 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
@@ -956,7 +976,7 @@ describe('parambulator', function() {
   })
 
 
-  it('value-wild$', function() {
+  it('value-wild$', function(done) {
 
     pb_value.validate({},function(err,res){
       assert.isNull(err)
@@ -980,10 +1000,11 @@ describe('parambulator', function() {
       assert.equal(err.parambulator.code,'wild$')
     })
 
+      done()
   })
 
 
-  it('value-eq$', function() {
+  it('value-eq$', function(done) {
     pb_value.validate({d:'d*'},function(err,res){
       assert.isNull(err)
     })
@@ -993,10 +1014,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'eq$')
     })
+      done()
   })
 
 
-  it('value-minlen$', function() {
+  it('value-minlen$', function(done) {
     // test for string values
     pb_value.validate({h:'abcde'},function(err,res){
       assert.isNull(err)
@@ -1027,10 +1049,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'minlen$')
     })
+      done()
   })
 
 
-  it('value-maxlen$', function() {
+  it('value-maxlen$', function(done) {
     // test string values
     pb_value.validate({i:'abcde'},function(err,res){
       assert.isNull(err)
@@ -1061,10 +1084,11 @@ describe('parambulator', function() {
       assert.equal(err.parambulator.code,'maxlen$')
     })
 
+      done()
   })
 
 
-  it('value-lt$', function() {
+  it('value-lt$', function(done) {
     pb_value.validate({j: 1},function(err,lt){
       assert.isNull(err)
     })
@@ -1073,19 +1097,20 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'lt$')
     })
-    
+
     pb_value.validate({k: new Date("2012-09-03")}, function(err,res) {
       assert.isNull(err)
     })
-    
+
     pb_value.validate({k: new Date("2012-09-04")}, function(err,res) {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'lt$')
     })
+      done()
   })
 
 
-  it('value-lte$', function() {
+  it('value-lte$', function(done) {
     pb_value.validate({l: 1},function(err,lt){
       assert.isNull(err)
     })
@@ -1098,19 +1123,20 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'lte$')
     })
-    
+
     pb_value.validate({m: new Date("2012-09-04")}, function(err,res) {
       assert.isNull(err)
     })
-    
+
     pb_value.validate({m: new Date("2012-09-05")}, function(err,res) {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'lte$')
     })
+      done()
   })
 
 
-  it('value-gt$', function() {
+  it('value-gt$', function(done) {
     pb_value.validate({n: 3},function(err,lt){
       assert.isNull(err)
     })
@@ -1119,19 +1145,20 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'gt$')
     })
-    
+
     pb_value.validate({o: new Date("2012-09-05")}, function(err,res) {
       assert.isNull(err)
     })
-    
+
     pb_value.validate({o: new Date("2012-09-04")}, function(err,res) {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'gt$')
     })
+      done()
   })
 
 
-  it('value-gte$', function() {
+  it('value-gte$', function(done) {
     pb_value.validate({p: 2},function(err,lt){
       assert.isNull(err)
     })
@@ -1144,19 +1171,20 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'gte$')
     })
-    
+
     pb_value.validate({q: new Date("2012-09-04")},function(err,res) {
       assert.isNull(err)
     })
-    
+
     pb_value.validate({q: new Date("2012-09-03")},function(err,res) {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'gte$')
-    })      
+    })
+      done()
   })
 
 
-  it('value-min$', function() {
+  it('value-min$', function(done) {
     pb_value.validate({r: 2},function(err,lt){
       assert.isNull(err)
     })
@@ -1169,19 +1197,20 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'min$')
     })
-    
+
     pb_value.validate({s: new Date("2012-09-04")},function(err,res) {
       assert.isNull(err)
     })
-    
+
     pb_value.validate({s: new Date("2012-09-03")},function(err,res) {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'min$')
-    })      
+    })
+      done()
   })
 
 
-  it('value-max$', function() {
+  it('value-max$', function(done) {
     pb_value.validate({t: 1},function(err,lt){
       assert.isNull(err)
     })
@@ -1194,31 +1223,33 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'max$')
     })
-    
+
     pb_value.validate({u: new Date("2012-09-04")},function(err,res){
       assert.isNull(err)
     })
-    
+
     pb_value.validate({u: new Date("2012-09-05")},function(err,res){
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'max$')
     })
+      done()
   })
 
-  
-  it('value-uniq$', function() {
+
+  it('value-uniq$', function(done) {
     pb_value.validate({v: [1,2,3]},function(err,res){
       assert.isNull(err)
     })
-    
+
     pb_value.validate({v: [1,2,3,1]},function(err,res){
       assert.isNotNull(err)
       assert.equal(err.parambulator.code, 'uniq$')
     })
+      done()
   })
-  
-  
-  it('value-re$', function() {
+
+
+  it('value-re$', function(done) {
     pb_value.validate({e:'ez'},function(err,res){
       assert.isNull(err)
     })
@@ -1237,10 +1268,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'re$')
     })
+      done()
   })
 
 
-  it('value-enum$', function() {
+  it('value-enum$', function(done) {
     pb_value.validate({g:'A'},function(err,res){
       assert.isNull(err)
     })
@@ -1250,10 +1282,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'enum$')
     })
+      done()
   })
 
 
-  it('value-toplevel', function() {
+  it('value-toplevel', function(done) {
 
     var pb = parambulator({
       type$:'object'
@@ -1262,17 +1295,18 @@ describe('parambulator', function() {
     pb_value.validate({},function(err){
       assert.isNull(err)
     })
-    
+
     pb_value.validate("foo",function(err){
       assert.isNotNull(err)
     })
+      done()
   })
 
 
 
 
   var pb_wild = parambulator({
-    
+
     atmostone$: 'a*',
 
     '*': {
@@ -1296,7 +1330,7 @@ describe('parambulator', function() {
   //console.log(''+pb)
 
 
-  it('wild-a*', function() {
+  it('wild-a*', function(done) {
     pb_wild.validate({z:1,},function(err,res){
       assert.isNull(err)
     })
@@ -1315,10 +1349,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'atmostone$')
     })
+      done()
   })
 
 
-  it('wild-star', function() {
+  it('wild-star', function(done) {
     pb_wild.validate({z:1,x:{a:1},y:{a:2}},function(err,res){
       assert.isNull(err)
     })
@@ -1342,11 +1377,12 @@ describe('parambulator', function() {
       assert.equal(err.parambulator.code,'type$')
     })
 
+      done()
   })
 
 
 
-  it('wild-**', function() {
+  it('wild-**', function(done) {
 
     pb_wild.validate({z:1,b:1,x:{a:1,b:1,y:{b:1}}},function(err,res){
       assert.isNull(err)
@@ -1370,10 +1406,11 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'type$')
     })
+      done()
   })
 
 
-  it('wild-z*', function() {
+  it('wild-z*', function(done) {
     pb_wild.validate({z:1},function(err,res){
       assert.isNull(err)
     })
@@ -1388,7 +1425,7 @@ describe('parambulator', function() {
       assert.isNotNull(err)
       assert.equal(err.parambulator.code,'required$')
     })
+      done()
   })
 
 })
-

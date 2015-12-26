@@ -1,38 +1,17 @@
 /* Copyright (c) 2014-2015 Richard Rodger, MIT License */
-"use strict";
+'use strict';
 
+var Lab = require('lab')
+var lab = exports.lab = Lab.script()
+var describe = lab.describe
+var it = lab.it
+var parambulator = require('..')
 
-if( 'undefined' === typeof parambulator ) {
-  var parambulator = require('..')
-}
-
-
-if( 'undefined' === typeof _ ) {
-  var _ = require('lodash')
-}
-
+var _ = require('lodash')
+var assert = require('chai').assert
 
 function s(obj){
   return JSON.stringify(obj)
-}
-
-
-var assert = {
-  isNull: function(x){
-    expect(x).toBe(null)
-  },
-  isNotNull: function(x){
-    expect(x).toNotBe(null)
-  },
-  equal: function(x,y){
-    expect(x).toBe(y)
-  },
-  isTrue: function(x){
-    expect(!!x).toBe(true)
-  },
-  ok: function(x){
-    expect(!!x).toBe(true)
-  },
 }
 
 
@@ -54,7 +33,7 @@ describe('parambulator-multi', function() {
   }, {multiErrors: true})
 
 
-  it('default-firsttest', function() {
+  it('default-firsttest', function(done) {
     var obj = {c: 2222}
     pb_default.validate(obj)
 
@@ -84,6 +63,7 @@ describe('parambulator-multi', function() {
     assert.isTrue(_.has(obj, 'e'))
     assert.isTrue(_.isArray(obj['e']))
     assert.equal(0, obj['e'].length)
+      done()
   })
 
 
@@ -99,7 +79,7 @@ describe('parambulator-multi', function() {
   })
 
 
-  it('format-datetime', function() {
+  it('format-datetime', function(done) {
     var validationsCount = 0
 
     pb_format.validate({},function(err,res){
@@ -122,9 +102,10 @@ describe('parambulator-multi', function() {
     // if there is a bug in parambulator where the callback is never called
     // tests will succeed without going through the asserts
     assert.equal(validationsCount, 3)
+      done()
   })
 
-  it('format-date', function() {
+  it('format-date', function(done) {
     pb_format.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -138,9 +119,10 @@ describe('parambulator-multi', function() {
       assert.equal(err.length, 1)
       assert.equal(err[0].parambulator.code,'format$')
     })
+      done()
   })
 
-  it('format-time', function() {
+  it('format-time', function(done) {
     pb_format.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -154,9 +136,10 @@ describe('parambulator-multi', function() {
       assert.equal(err.length, 1)
       assert.equal(err[0].parambulator.code,'format$')
     })
+      done()
   })
 
-  it('format-utcmillisec', function() {
+  it('format-utcmillisec', function(done) {
     pb_format.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -170,9 +153,10 @@ describe('parambulator-multi', function() {
       assert.equal(err.length, 1)
       assert.equal(err[0].parambulator.code,'format$')
     })
+      done()
   })
 
-  it('format-re', function() {
+  it('format-re', function(done) {
     pb_format.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -186,10 +170,11 @@ describe('parambulator-multi', function() {
       assert.equal(err.length, 1)
       assert.equal(err[0].parambulator.code,'format$')
     })
+      done()
   })
 
 
-  it('format-date-time', function() {
+  it('format-date-time', function(done) {
     pb_format.validate({},function(err,res){
       assert.isNull(err)
     })
@@ -237,6 +222,7 @@ describe('parambulator-multi', function() {
       assert.equal(err.length, 1)
       assert.equal(err[0].parambulator.code,'format$')
     })
+      done()
   })
 
   it('format-all', function(done) {
