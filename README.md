@@ -1,9 +1,14 @@
-# parambulator - Node.js module
+# parambulator
 
+[![npm version][npm-badge]][npm-url]
+[![Build Status][travis-badge]][travis-url]
+[![Coverage Status][coveralls-badge]][coveralls-url]
+[![Dependency Status][david-badge]][david-url]
+[![Gitter chat][gitter-badge]][gitter-url]
 
 A simple way to generate nice error messages for named parameters.
 
-This module is used by the <a href="http://senecajs.org">Seneca framework</a> for input validation.
+This module is used by the [Seneca framework](http://senecajs.org) for input validation.
 
 This module works on both Node.js and browsers.
 
@@ -14,9 +19,7 @@ have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
 
 Current Version: 1.5.1
 
-Tested on: node 0.10, 0.11, 0.12, iojs, Chrome 43, Safari 7, Firefox 38
-
-[![Build Status](https://travis-ci.org/rjrodger/parambulator.png?branch=master)](https://travis-ci.org/rjrodger/parambulator)
+Tested on: node 0.10, 0.11, 0.12, iojs, 4, 5, Chrome 43, Safari 7, Firefox 38
 
 [Annotated Source](http://rjrodger.github.io/parambulator/doc/parambulator.html)
 
@@ -704,3 +707,13 @@ $ open test/jasmine.html
 Release numbers are strict [semver](http://semver.org/) as 1.x.x. All
 releases are tagged in github with release version.
 
+[npm-badge]: https://badge.fury.io/js/parambulator.svg
+[npm-url]: https://badge.fury.io/js/parambulator
+[travis-badge]: https://api.travis-ci.org/rjrodger/parambulator.svg
+[travis-url]: https://travis-ci.org/rjrodger/parambulator
+[coveralls-badge]:https://coveralls.io/repos/rjrodger/parambulator/badge.svg?branch=master&service=github
+[coveralls-url]: https://coveralls.io/github/rjrodger/parambulator?branch=master
+[david-badge]: https://david-dm.org/rjrodger/parambulator.svg
+[david-url]: https://david-dm.org/rjrodger/parambulator
+[gitter-badge]: https://badges.gitter.im/rjrodger/parambulator.svg
+[gitter-url]: https://gitter.im/rjrodger/parambulator
