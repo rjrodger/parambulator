@@ -1,6 +1,7 @@
 {
   "name": "parambulator",
   "description": "A simple way to generate nice error messages for named parameters.",
+  "version": "1.5.1",
   "keywords": [
     "json",
     "param",
@@ -14,10 +15,14 @@
   "contributors": [
     "Richard Rodger (http://richardrodger.com/)"
   ],
-  "version": "1.5.1",
   "main": "parambulator.js",
   "repository": {
     "url": "https://github.com/rjrodger/parambulator.git"
+  },
+  "scripts": {
+    "test": "lab",
+    "coverage": "lab -s -r lcov | coveralls",
+    "build": "./build.sh"
   },
   "dependencies": {
     "gex": "0.2.0",
@@ -32,16 +37,9 @@
   ],
   "devDependencies": {
     "chai": "^3.4.1",
+    "coveralls": "^2.11.6",
     "docco": "0.7.0",
-    "jasmine-node": "1.14.5",
     "jshint": "2.8.0",
-    "lab": "^6.2.0",
-    "mocha": "~2.1.0",
-    "phantomjs": "1.8.2-3",
-    "uglify-js": "2.4.23"
-  },
-  "scripts": {
-    "test": "lab",
-    "build": "./build.sh"
+    "lab": "^6.2.0"
   }
 }
