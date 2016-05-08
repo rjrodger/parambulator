@@ -207,7 +207,7 @@
       var pn = ctxt.util.proplist(ctxt)
 
       for( var p in ctxt.point ) {
-        if( !_.include(pn,p) ) {
+        if( !(_.includes||_.contains)(pn,p) ) {
           ctxt.prop = p
           return ctxt.util.fail(ctxt,cb)
         }
@@ -533,7 +533,7 @@
   function killcircles() {
     var seen = []
     return function(k,v){
-      if( _.contains(seen,v) ) return '[CIRCULAR-REFERENCE]';
+      if( (_.includes||_.contains)(seen,v) ) return '[CIRCULAR-REFERENCE]';
       seen.push(v)
       return v
     }
@@ -576,7 +576,7 @@
     }
     else {
       msg = ctxt.util.msgmods( msg )
-      msg = _.template(msg,inserts)
+      msg = _.template(msg)(inserts)
     }
 
     var err = new Error( msg )
@@ -630,13 +630,9 @@
       throw new Error('Parambulator: spec argument is not an object')
     }
 
-    /*
-     if( exp.ownparams ) {
-     exp.ownparams.validate(spec,function(err){
-     if( err ) throw err;
-     })
-     }
-     */
+    if( _.cloneDeep ) {
+      spec = _.cloneDeep(spec)
+    }
 
     if( pref ) {
       if( exp.ownprefs ) {

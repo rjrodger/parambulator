@@ -12,9 +12,7 @@ have any questions! :) [@rjrodger](http://twitter.com/rjrodger)
 
 [![Gitter chat](https://badges.gitter.im/rjrodger/parambulator.png)](https://gitter.im/rjrodger/parambulator)
 
-Current Version: 1.5.1
-
-Tested on: node 0.10, 0.11, 0.12, iojs, Chrome 43, Safari 7, Firefox 38
+Current Version: 1.5.2
 
 [![Build Status](https://travis-ci.org/rjrodger/parambulator.png?branch=master)](https://travis-ci.org/rjrodger/parambulator)
 
