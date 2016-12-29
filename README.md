@@ -702,3 +702,7 @@ $ open test/jasmine.html
 Release numbers are strict [semver](http://semver.org/) as 1.x.x. All
 releases are tagged in github with release version.
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/rjrodger/parambulator/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
